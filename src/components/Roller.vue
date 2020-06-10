@@ -1,30 +1,21 @@
 <template>
 	<transition-group tag="div" name="roller" class="roller">
-		<ul
-			class="roller__char"
-			v-for="(t,idx) in getText"
-			:key="getIndex(t,idx)"
-			:style="{'top':`-${findCharIndex(t)*100}%`,'height':`${charList.length*100}%`,'transition':`${transition}s`}"
-		>
-			<li
-				class="roller__char__item"
-				v-for="char in findCharIndex(t,true) != -1 ? charList : [t]"
-				:key="char"
-				:style="{'opacity':char == ' ' ? 0 : 1}"
-			>{{char == " " ? "l": char}}</li>
+		<ul class="roller__char" v-for="(t, idx) in getText" :key="getIndex(t, idx)" :style="{ top: `-${findCharIndex(t) * 100}%`, height: `${charList.length * 100}%`, transition: `${transition}s` }">
+			<li class="roller__char__item" v-for="char in findCharIndex(t, true) != -1 ? charList : [t]" :key="char" :style="{ opacity: char == ' ' ? 0 : 1 }">{{ char == " " ? "l" : char }}</li>
 		</ul>
 	</transition-group>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import { PropType } from "vue";
 
 @Component
 export default class Roller extends Vue {
-	@Prop({ default: 1234 }) number!: number | string;
+	@Prop({ default: 1234 }) text!: string;
 	@Prop({ default: false }) isDecimalSeparator!: boolean;
-	@Prop({ default: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] })
-	charList!: string;
+	@Prop({ default: () => ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"], type: Array as PropType<string[]> })
+	charList!: string[];
 	@Prop({ default: 0.5 }) transition!: number;
 
 	format = new Intl.NumberFormat().format;
@@ -39,11 +30,11 @@ export default class Roller extends Vue {
 	get getText(): string[] {
 		if (!this.isRollStart) return [""];
 		if (this.isDecimalSeparator) {
-			return this.format(Number(this.number))
+			return this.format(Number(this.text))
 				.toString()
 				.split("");
 		} else {
-			return String(this.number).split("");
+			return String(this.text).split("");
 		}
 	}
 
@@ -107,20 +98,8 @@ export default class Roller extends Vue {
 	line-height: 1.5em;
 	overflow: hidden;
 
-	mask-image: linear-gradient(
-		0deg,
-		rgba(255, 255, 255, 0) 0%,
-		rgba(0, 0, 0, 1) 25%,
-		rgba(0, 0, 0, 1) 75%,
-		rgba(255, 255, 255, 0) 100%
-	);
-	-webkit-mask-image: linear-gradient(
-		0deg,
-		rgba(255, 255, 255, 0) 0%,
-		rgba(0, 0, 0, 1) 25%,
-		rgba(0, 0, 0, 1) 75%,
-		rgba(255, 255, 255, 0) 100%
-	);
+	mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 75%, rgba(255, 255, 255, 0) 100%);
+	-webkit-mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 75%, rgba(255, 255, 255, 0) 100%);
 	.roller__char {
 		display: inline-flex;
 		line-height: 1.5em;

@@ -2,12 +2,12 @@
 	<div class="app">
 		<header class="app__title">
 			<h1>
-				<Roller number="vue-roller" :charList="['v','u','e','o']" transition="1"></Roller>
+				<Roller text="vue-roller" :charList="['v', 'u', 'e', 'o']" transition="1"></Roller>
 			</h1>
 		</header>
 		<section class="app__content">
 			<h2>Example</h2>
-			<Roller :number="number" :isDecimalSeparator="isDecimalSeparator"></Roller>
+			<Roller :text="number" :isDecimalSeparator="isDecimalSeparator"></Roller>
 			<input type="text" v-model="number" />
 			<label>
 				isDecimalSeparator:
@@ -22,7 +22,7 @@ import { Component, Vue } from "vue-property-decorator";
 import Roller from "./components/Roller.vue";
 
 @Component({
-	components: { Roller: Roller }
+	components: { Roller: Roller },
 })
 export default class App extends Vue {
 	number: number = 1234;

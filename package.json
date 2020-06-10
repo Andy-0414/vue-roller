@@ -1,9 +1,9 @@
 {
 	"name": "vue-roller",
-	"main": "src/index.js",
+	"main": "dist/vue-roller.common.js",
 	"types": "src/index.d.ts",
 	"description": "Number Rolling Counter",
-	"version": "1.1.9",
+	"version": "1.2.0",
 	"private": false,
 	"license": "MIT",
 	"keywords": [
@@ -17,13 +17,13 @@
 	},
 	"scripts": {
 		"serve": "vue-cli-service serve",
-		"build": "vue-cli-service build --dest dist --target lib --name roller --mode lib",
+		"build": "vue-cli-service build --dest dist --target lib --inline-vue --name vue-roller --mode lib ./src/index.ts",
 		"gitpage": "vue-cli-service build --dest docs",
 		"upload": "npm run build && npm publish --access=public"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/andy-0414/vue-roller"
+		"url": "https://github.com/andy-0414/vue-roller/"
 	},
 	"homepage": "https://andy-0414.github.io/vue-roller/",
 	"files": [
@@ -44,7 +44,8 @@
 		"node-sass": "^4.12.0",
 		"sass-loader": "^8.0.2",
 		"typescript": "~3.9.3",
-		"vue-template-compiler": "^2.6.11"
+		"vue-template-compiler": "^2.6.11",
+		"webpack-env": "^0.8.0"
 	},
 	"browserslist": [
 		"> 1%",
