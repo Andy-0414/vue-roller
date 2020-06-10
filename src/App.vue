@@ -2,13 +2,13 @@
 	<div class="app">
 		<header class="app__title">
 			<h1>
-				<Roller text="vue-roller" :charList="['v', 'u', 'e', 'o']" transition="1"></Roller>
+				<Roller text="vue-roller" :charList="['v', 'u', 'e', 'o']" :transition="1"></Roller>
 			</h1>
 		</header>
 		<section class="app__content">
 			<h2>Example</h2>
-			<Roller :text="number" :isDecimalSeparator="isDecimalSeparator"></Roller>
-			<input type="text" v-model="number" />
+			<Roller :text="text" :isDecimalSeparator="isDecimalSeparator"></Roller>
+			<input type="text" v-model="text" />
 			<label>
 				isDecimalSeparator:
 				<input type="checkbox" v-model="isDecimalSeparator" />
@@ -25,15 +25,8 @@ import Roller from "./components/Roller.vue";
 	components: { Roller: Roller },
 })
 export default class App extends Vue {
-	number: number = 1234;
-	randomNumber: number = 1000;
+	text: string = "1234";
 	isDecimalSeparator: boolean = false;
-
-	created() {
-		setInterval(() => {
-			this.randomNumber = Math.floor(Math.random() * 8999 + 1000);
-		}, 1000);
-	}
 }
 </script>
 
