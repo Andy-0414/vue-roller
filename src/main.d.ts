@@ -1,4 +1,4 @@
 import Vue from "vue";
-declare module "vue-chartjs" {
+declare module "vue-roller" {
 	export class Roller extends Vue {}
 }
