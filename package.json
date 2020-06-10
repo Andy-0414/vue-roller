@@ -1,8 +1,9 @@
 {
 	"name": "vue-roller",
-	"typings": "./src/main.d.ts",
+	"main": "src/index.js",
+	"types": "src/index.d.ts",
 	"description": "Number Rolling Counter",
-	"version": "1.1.3",
+	"version": "1.1.9",
 	"private": false,
 	"license": "MIT",
 	"keywords": [
@@ -25,6 +26,11 @@
 		"url": "https://github.com/andy-0414/vue-roller"
 	},
 	"homepage": "https://andy-0414.github.io/vue-roller/",
+	"files": [
+		"dist",
+		"src",
+		"*.d.ts"
+	],
 	"dependencies": {
 		"core-js": "^3.6.5",
 		"vue": "^2.6.11",
