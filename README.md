@@ -59,9 +59,9 @@ required
 <Roller transition="1">
 ```
 
-transition speed
+transition speed (s)
 
-default = 0.5
+default:0.5
 
 ## isNumberFormat
 
@@ -71,7 +71,7 @@ default = 0.5
 
 numberFormat (comma)
 
-default - false
+default:false
 
 ## charList
 
@@ -81,4 +81,4 @@ default - false
 
 roll char list
 
-default - ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+default:["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
