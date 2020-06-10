@@ -1,29 +1,21 @@
 # vue-roller
 
-## Project setup
+Vue Rolling Count & Vue Rolling String
+
+## GET STARTED
+
+npm
+
 ```
-npm install
+npm i vue-roller
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Vue-typescript
 
-### Compiles and minifies for production
 ```
-npm run build
-```
+import { Roller } from "vue-roller";
 
-### Run your tests
+@Component({
+	components: { Roller }
+})
 ```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
