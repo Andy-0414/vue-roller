@@ -1,5 +1,6 @@
 {
 	"name": "vue-roller",
+	"typings": "./src/main.d.ts",
 	"description": "Number Rolling Counter",
 	"version": "1.1.2",
 	"private": false,
@@ -16,12 +17,14 @@
 	"scripts": {
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build --dest dist --target lib --name roller --mode lib",
-		"gitpage": "vue-cli-service build --dest docs"
+		"gitpage": "vue-cli-service build --dest docs",
+		"upload": "npm publish --access=public"
 	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/andy-0414/vue-roller"
 	},
+	"homepage": "https://andy-0414.github.io/vue-roller/",
 	"dependencies": {
 		"core-js": "^3.6.5",
 		"vue": "^2.6.11",
