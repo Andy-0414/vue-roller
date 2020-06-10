@@ -13,7 +13,7 @@ import { PropType } from "vue";
 @Component
 export default class Roller extends Vue {
 	@Prop({ default: "0000", type: String as PropType<string>, required: true }) readonly text!: string;
-	@Prop({ default: false, type: Boolean as PropType<boolean> }) readonly isDecimalSeparator!: boolean;
+	@Prop({ default: false, type: Boolean as PropType<boolean> }) readonly isNumberFormat!: boolean;
 	@Prop({ default: () => ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"], type: Array as PropType<string[]> })
 	readonly charList!: string[];
 	@Prop({ default: 0.5, type: Number as PropType<number> }) readonly transition!: number;
@@ -29,7 +29,7 @@ export default class Roller extends Vue {
 
 	get getText(): string[] {
 		if (!this.isRollStart) return [""];
-		if (this.isDecimalSeparator) {
+		if (this.isNumberFormat) {
 			return this.format(Number(this.text))
 				.toString()
 				.split("");
