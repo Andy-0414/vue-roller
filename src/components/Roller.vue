@@ -4,13 +4,13 @@
 			class="roller__char"
 			v-for="(t,idx) in getText"
 			:key="getIndex(t,idx)"
-			:style="{'top':`-${findCharIndex(t)*100}%`,'height':`${charList.length*100}%`}"
+			:style="{'top':`-${findCharIndex(t)*100}%`,'height':`${charList.length*100}%`,'transition':`${transition}s`}"
 		>
 			<li
 				class="roller__char__item"
-				v-for="char in findCharIndex(t) ? charList : [t]"
+				v-for="char in findCharIndex(t,true) != -1 ? charList : [t]"
 				:key="char"
-                :style="{'opacity':char == ' ' ? 0 : 1}"
+				:style="{'opacity':char == ' ' ? 0 : 1}"
 			>{{char == " " ? "l": char}}</li>
 		</ul>
 	</transition-group>
@@ -21,19 +21,29 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class Roller extends Vue {
-	@Prop({ default: 1234 }) number: number | string | undefined;
-	@Prop({ default: false }) isDecimalSeparator: boolean | undefined;
-	@Prop({ default: "top" }) direction: string | undefined;
+	@Prop({ default: 1234 }) number!: number | string;
+	@Prop({ default: false }) isDecimalSeparator!: boolean;
+	@Prop({ default: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] })
+	charList!: string;
+	@Prop({ default: 0.5 }) transition!: number;
 
-	charList: string[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 	format = new Intl.NumberFormat().format;
-	get getText() {
+	isRollStart = false;
+
+	mounted() {
+		setTimeout(() => {
+			this.isRollStart = true;
+		}, 500);
+	}
+
+	get getText(): string[] {
+		if (!this.isRollStart) return [""];
 		if (this.isDecimalSeparator) {
 			return this.format(Number(this.number))
 				.toString()
 				.split("");
 		} else {
-			return String(this.number!).split("");
+			return String(this.number).split("");
 		}
 	}
 
@@ -52,9 +62,9 @@ export default class Roller extends Vue {
 		return this.charList.indexOf(t) != -1;
 	}
 
-	findCharIndex(t: string) {
+	findCharIndex(t: string, isOriginal: boolean = false) {
 		let idx = this.charList.indexOf(t);
-		if (idx == -1) return 0;
+		if (idx == -1 && !isOriginal) return 0;
 		else return idx;
 	}
 }

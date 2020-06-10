@@ -1,7 +1,7 @@
 {
 	"name": "vue-roller",
 	"description": "Number Rolling Counter",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"private": false,
 	"license": "MIT",
 	"keywords": [
@@ -15,7 +15,8 @@
 	},
 	"scripts": {
 		"serve": "vue-cli-service serve",
-		"build": "vue-cli-service build --target lib --name roller"
+		"build": "vue-cli-service build --target lib --name roller --mode lib",
+		"gitpage": "vue-cli-service build --dest docs"
 	},
 	"repository": {
 		"type": "git",
