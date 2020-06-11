@@ -3,7 +3,7 @@
 	"main": "dist/vue-roller.common.js",
 	"types": "src/index.d.ts",
 	"description": "Number Rolling Counter",
-	"version": "1.6.0",
+	"version": "1.6.2",
 	"private": false,
 	"license": "MIT",
 	"keywords": [
