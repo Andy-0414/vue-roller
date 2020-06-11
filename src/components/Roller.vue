@@ -1,7 +1,17 @@
 <template>
 	<transition-group tag="div" name="roller" class="roller">
-		<ul class="roller__char" v-for="(t, idx) in getText" :key="getIndex(t, idx)" :style="{ top: `-${findCharIndex(t) * 100}%`, height: `${charList.length * 100}%`, transition: `${transition}s` }">
-			<li class="roller__char__item" v-for="char in findCharIndex(t, true) != -1 ? charList : [t]" :key="char" :style="{ opacity: char == ' ' ? 0 : 1 }">{{ char == " " ? "l" : char }}</li>
+		<ul
+			class="roller__char"
+			v-for="(t, idx) in getText"
+			:key="getIndex(t, idx)"
+			:style="{ top: `-${findCharIndex(t) * 100}%`, height: `${charList.length * 100}%`, transition: `${transition}s` }"
+		>
+			<li
+				class="roller__char__item"
+				v-for="char in findCharIndex(t, true) != -1 ? charList : [t]"
+				:key="char"
+				:style="{ opacity: char == ' ' ? 0 : 1 }"
+			>{{ char == " " ? "l" : char }}</li>
 		</ul>
 	</transition-group>
 </template>
@@ -12,11 +22,19 @@ import { PropType } from "vue";
 
 @Component
 export default class Roller extends Vue {
-	@Prop({ default: "0000", type: String as PropType<string>, required: true }) readonly text!: string;
-	@Prop({ default: false, type: Boolean as PropType<boolean> }) readonly isNumberFormat!: boolean;
-	@Prop({ default: () => ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"], type: Array as PropType<string[]> })
+	@Prop({ default: "0000", type: String as PropType<string>, required: true })
+	readonly text!: string;
+	@Prop({ default: false, type: Boolean as PropType<boolean> })
+	readonly isNumberFormat!: boolean;
+	@Prop({
+		default: () => ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+		type: Array as PropType<string[]>
+	})
 	readonly charList!: string[];
-	@Prop({ default: 0.5, type: Number as PropType<number> }) readonly transition!: number;
+	@Prop({ default: 0.5, type: Number as PropType<number> })
+	readonly transition!: number;
+	@Prop({ default: "", type: String as PropType<string> })
+	readonly defaultChar!: string;
 
 	format = new Intl.NumberFormat().format;
 	isRollStart = false;
@@ -24,11 +42,21 @@ export default class Roller extends Vue {
 	mounted() {
 		setTimeout(() => {
 			this.isRollStart = true;
-		}, 500);
+		}, 200);
 	}
 
 	get getText(): string[] {
-		if (!this.isRollStart) return [""];
+		if (!this.isRollStart)
+			if (this.isNumberFormat) {
+				return this.format(Number(this.text))
+					.toString()
+					.split("")
+					.map(s => (s == "," ? "," : this.defaultChar));
+			} else {
+				return [...Array(String(this.text).length)].map(
+					() => this.defaultChar
+				);
+			}
 		if (this.isNumberFormat) {
 			return this.format(Number(this.text))
 				.toString()
@@ -98,8 +126,20 @@ export default class Roller extends Vue {
 	line-height: 1.5em;
 	overflow: hidden;
 
-	mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 75%, rgba(255, 255, 255, 0) 100%);
-	-webkit-mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 75%, rgba(255, 255, 255, 0) 100%);
+	mask-image: linear-gradient(
+		0deg,
+		rgba(255, 255, 255, 0) 0%,
+		rgba(0, 0, 0, 1) 25%,
+		rgba(0, 0, 0, 1) 75%,
+		rgba(255, 255, 255, 0) 100%
+	);
+	-webkit-mask-image: linear-gradient(
+		0deg,
+		rgba(255, 255, 255, 0) 0%,
+		rgba(0, 0, 0, 1) 25%,
+		rgba(0, 0, 0, 1) 75%,
+		rgba(255, 255, 255, 0) 100%
+	);
 	.roller__char {
 		display: inline-flex;
 		line-height: 1.5em;

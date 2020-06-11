@@ -82,3 +82,13 @@ default:false
 roll char list
 
 default:["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+## defaultChar
+
+```
+<Roller defaultChar="0">
+```
+
+start char (first load)
+
+default:""
