@@ -1,20 +1,20 @@
-![logo](https://github.com/andy-0414/vue-roller/blob/master/img/vue-roller.gif?raw=true)
+![Animated logo](https://github.com/andy-0414/vue-roller/blob/master/img/vue-roller.gif?raw=true)
 
 [![License](https://img.shields.io/npm/l/vue-roller.svg?sanitize=true)](https://www.npmjs.com/package/vue-roller)
 [![Version](https://img.shields.io/npm/v/vue-roller.svg?sanitize=true)](https://www.npmjs.com/package/vue-roller)
 
 # vue-roller
 
-Vue Rolling Count & Vue Rolling String
+Fluid and smooth rolling animation for Vue.js
 
 # Demo
 
-![logo](https://github.com/andy-0414/vue-roller/blob/master/img/example1.gif?raw=true)
-![logo](https://github.com/andy-0414/vue-roller/blob/master/img/example2.gif?raw=true)
+![Animated Demo](https://github.com/andy-0414/vue-roller/blob/master/img/example1.gif?raw=true)
+![Animated Demo](https://github.com/andy-0414/vue-roller/blob/master/img/example2.gif?raw=true)
 
-[More](http://andy-0414.github.io/vue-roller)
+Try out [here](http://andy-0414.github.io/vue-roller) with your own text!
 
-# GET STARTED
+# Getting Started
 
 npm
 
@@ -48,15 +48,12 @@ import Roller from "vue-roller";
 
 # Options
 
-## text
+## text (Required)
 
 ```
 <Roller text="1234">
 ```
-
-display text
-
-required
+Displays text.
 
 ## transition
 
@@ -64,9 +61,7 @@ required
 <Roller transition="1">
 ```
 
-transition speed (s)
-
-default:0.5
+Sets the time for the animation to complete in second(s). ``0.5`` by default.
 
 ## isNumberFormat
 
@@ -74,9 +69,7 @@ default:0.5
 <Roller isNumberFormat="true">
 ```
 
-numberFormat (comma)
-
-default:false
+Can be set to ``true`` if you want to display commas as thousands separators. ``false`` by default.
 
 ## charList
 
@@ -84,9 +77,9 @@ default:false
 <Roller :charList="['a', 'b', 'c']">
 ```
 
-roll char list
+Sets the list of characters used for the animation.
 
-default:["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+Default: ``["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]``
 
 ## defaultChar
 
@@ -94,6 +87,4 @@ default:["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 <Roller defaultChar="0">
 ```
 
-start char (first load)
-
-default:""
+Sets the text to display when the page is first loaded before the animation actually starts. ``""`` by default.
