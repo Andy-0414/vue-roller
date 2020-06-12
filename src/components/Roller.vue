@@ -40,32 +40,40 @@ export default class Roller extends Vue {
 	isRollStart = false;
 
 	mounted() {
+		// 0.2s start
 		setTimeout(() => {
 			this.isRollStart = true;
 		}, 200);
 	}
-
+	// get pre processing text
 	get getText(): string[] {
-		if (!this.isRollStart)
+		// is component start
+		if (this.isRollStart) {
 			if (this.isNumberFormat) {
+				// number comma enable
+				return this.format(Number(this.text))
+					.toString()
+					.split("");
+			} else {
+				// number comma disable
+				return String(this.text).split("");
+			}
+		} else {
+			if (this.isNumberFormat) {
+				// number comma enable
 				return this.format(Number(this.text))
 					.toString()
 					.split("")
 					.map(s => (s == "," ? "," : this.defaultChar));
 			} else {
+				// number comma disable
 				return [...Array(String(this.text).length)].map(
 					() => this.defaultChar
 				);
 			}
-		if (this.isNumberFormat) {
-			return this.format(Number(this.text))
-				.toString()
-				.split("");
-		} else {
-			return String(this.text).split("");
 		}
 	}
-
+	// get char index
 	getIndex(t: string, idx: number): string {
 		if (!this.isIncludeCharList(t)) {
 			if (!t.trim()) return "NULL" + idx;
@@ -77,10 +85,11 @@ export default class Roller extends Vue {
 			.match(/,/gi);
 		return (idx - (reg ? reg!.length : 0)).toString();
 	}
+	// is include char list
 	isIncludeCharList(t: string): boolean {
 		return this.charList.indexOf(t) != -1;
 	}
-
+	// get char index
 	findCharIndex(t: string, isOriginal: boolean = false) {
 		let idx = this.charList.indexOf(t);
 		if (idx == -1 && !isOriginal) return 0;
