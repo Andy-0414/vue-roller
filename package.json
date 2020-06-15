@@ -3,7 +3,7 @@
 	"main": "dist/vue-roller.common.js",
 	"types": "src/index.d.ts",
 	"description": "Number Rolling Counter",
-	"version": "1.6.5",
+	"version": "1.6.6",
 	"private": false,
 	"license": "MIT",
 	"keywords": [
@@ -26,6 +26,10 @@
 		"url": "https://github.com/andy-0414/vue-roller/"
 	},
 	"homepage": "https://andy-0414.github.io/vue-roller/",
+	"bugs": {
+		"url": "https://github.com/Andy-0414/vue-roller/issues",
+		"email": "pjh8667@gmail.com"
+	},
 	"files": [
 		"dist",
 		"src",
