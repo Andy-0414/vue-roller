@@ -2,7 +2,13 @@
 	<div class="app">
 		<header class="app__title">
 			<h1>
-				<Roller text="vue-roller" :charList="['v', 'u', 'e', 'o']" :transition="1"></Roller>
+				<Roller
+					text="vue-roller"
+					:charList="['v', 'u', 'e','r', 'o','l']"
+					:transition="1"
+					:isStatic="true"
+					class="roller"
+				></Roller>
 			</h1>
 			<div class="app__title__action">
 				<a href="https://github.com/Andy-0414/vue-roller">
@@ -12,16 +18,27 @@
 		</header>
 		<section class="app__content">
 			<h2>Example</h2>
-			<Roller :text="text" :isNumberFormat="isNumberFormat" :transition="transition"></Roller>
+			<Roller
+				:text="text"
+				:isNumberFormat="isNumberFormat"
+				:transition="transition"
+				:charList="getCharList"
+				class="roller"
+			></Roller>
 			<input type="text" v-model="text" />
 			<label>
 				isNumberFormat:
 				<input type="checkbox" v-model="isNumberFormat" />
 			</label>
 			<label>
-				Transition:
+				transition:
 				<input type="range" v-model="transition" min="0.1" max="2" step="0.1" />
 				({{transition}})
+			</label>
+			<label>
+				charList:
+				<span class="charlist">{{getCharList}}</span>
+				<button @click="changeCharListMode">Toggle CharList</button>
 			</label>
 		</section>
 		<footer class="app__footer">MIT Licensed, Copyright © 2020 github.com/andy-0414</footer>
@@ -39,10 +56,62 @@ export default class App extends Vue {
 	text: string = "1234";
 	isNumberFormat: boolean = false;
 	transition: number = 0.5;
+	readonly numberCharList: string[] = [
+		"0",
+		"1",
+		"2",
+		"3",
+		"4",
+		"5",
+		"6",
+		"7",
+		"8",
+		"9"
+	];
+	readonly stringCharList: string[] = [
+		"a",
+		"b",
+		"c",
+		"d",
+		"e",
+		"f",
+		"g",
+		"h",
+		"i",
+		"j",
+		"k",
+		"l",
+		"m",
+		"n",
+		"o",
+		"p",
+		"q",
+		"r",
+		"s",
+		"t",
+		"u",
+		"g",
+		"w",
+		"x",
+		"y",
+		"z"
+	];
+	charListMode: string = "number";
+	changeCharListMode(): void {
+		if (this.charListMode == "number") this.charListMode = "string";
+		else this.charListMode = "number";
+	}
+
+	get getCharList(): string[] {
+		return this.charListMode == "number"
+			? this.numberCharList
+			: this.stringCharList;
+	}
 }
 </script>
 
 <style lang="scss">
+@import url("https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap");
 * {
 	margin: 0;
 	padding: 0;
@@ -80,6 +149,26 @@ input[type="text"] {
 		border-bottom: 1px solid #42b883;
 	}
 }
+
+button {
+	cursor: pointer;
+	outline: none;
+	border: none;
+	background-color: #42b883;
+	color: white;
+	font-size: 0.8em;
+	padding: 5px;
+	border-radius: 5px;
+
+	transition: 0.2s;
+
+	&:hover {
+		filter: brightness(1.1);
+	}
+	&:active {
+		background-color: #354952;
+	}
+}
 .app {
 	display: flex;
 	flex-direction: column;
@@ -99,7 +188,9 @@ input[type="text"] {
 
 		background-color: #354952;
 		color: white;
-
+		.roller * {
+			font-family: "Major Mono Display", monospace;
+		}
 		.app__title__action {
 			position: absolute;
 			bottom: 2vh;
@@ -125,6 +216,10 @@ input[type="text"] {
 		flex-direction: column;
 		align-items: center;
 
+		.roller * {
+			font-family: "Major Mono Display", monospace;
+		}
+
 		h2 {
 			font-size: 2em;
 			color: #42b883;
@@ -132,6 +227,10 @@ input[type="text"] {
 		}
 		label {
 			margin-top: 20px;
+
+			.charlist {
+				font-size: 0.5em;
+			}
 		}
 	}
 	.app__footer {

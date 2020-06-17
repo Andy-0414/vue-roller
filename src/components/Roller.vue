@@ -1,7 +1,12 @@
 <template>
-	<transition-group tag="div" name="roller" class="roller">
+	<div v-if="isStatic && isAnimationEnd" class="roller">
+		<ul class="roller__char block" v-for="(t, idx) in getText" :key="getIndex(t, idx)">
+			<li class="roller__char__item" :style="{ opacity: char == ' ' ? 0 : 1 }">{{t}}</li>
+		</ul>
+	</div>
+	<transition-group tag="div" name="roller" class="roller" v-else>
 		<ul
-			class="roller__char"
+			class="roller__char block"
 			v-for="(t, idx) in getText"
 			:key="getIndex(t, idx)"
 			:style="{ top: `-${findCharIndex(t) * 100}%`, height: `${charList.length * 100}%`, transition: `${transition}s` }"
@@ -16,7 +21,12 @@
 	</transition-group>
 </template>
 
+
 <script lang="ts">
+// TODO: default char 각각 다르게 구현
+// TODO: 블럭 별로 CSS 커스텀 가능하도록 클래스이름 정해야함 ( .block )
+// TODO: 에니메이션 완료 후 최적화 코드 구현해야함 ( 옵션 ) => 문서 작성해야함
+
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { PropType } from "vue";
 
@@ -26,6 +36,8 @@ export default class Roller extends Vue {
 	readonly text!: string;
 	@Prop({ default: false, type: Boolean as PropType<boolean> })
 	readonly isNumberFormat!: boolean;
+	@Prop({ default: false, type: Boolean as PropType<boolean> })
+	readonly isStatic!: boolean;
 	@Prop({
 		default: () => ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
 		type: Array as PropType<string[]>
@@ -37,12 +49,16 @@ export default class Roller extends Vue {
 	readonly defaultChar!: string;
 
 	format = new Intl.NumberFormat().format;
-	isRollStart = false;
+	isRollStart: boolean = false;
+	isAnimationEnd = false;
 
 	mounted() {
 		// 0.2s start
 		setTimeout(() => {
 			this.isRollStart = true;
+			setTimeout(() => {
+				this.isAnimationEnd = true;
+			}, this.transition * 1000);
 		}, 200);
 	}
 	// get pre processing text
@@ -163,5 +179,10 @@ export default class Roller extends Vue {
 			flex: 1;
 		}
 	}
+}
+.block {
+	padding: 0 !important;
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
 }
 </style>
