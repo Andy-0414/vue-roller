@@ -24,8 +24,8 @@
 
 <script lang="ts">
 // TODO: default char 각각 다르게 구현
-// TODO: 블럭 별로 CSS 커스텀 가능하도록 클래스이름 정해야함 ( .block )
-// TODO: 에니메이션 완료 후 최적화 코드 구현해야함 ( 옵션 ) => 문서 작성해야함
+// TODO: 블럭 별로 CSS 커스텀 가능하도록 클래스이름 정해야함 ( .block ) => 문서 작성해야함
+// TODO: isStatic => 문서 작성해야함
 
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { PropType } from "vue";

@@ -4,8 +4,8 @@
 			<h1>
 				<Roller
 					text="vue-roller"
-					:charList="['v', 'u', 'e','r', 'o','l']"
-					:transition="1"
+					:charList="stringCharList"
+					:transition="2"
 					:isStatic="true"
 					class="roller"
 				></Roller>
@@ -90,7 +90,7 @@ export default class App extends Vue {
 		"s",
 		"t",
 		"u",
-		"g",
+		"v",
 		"w",
 		"x",
 		"y",
