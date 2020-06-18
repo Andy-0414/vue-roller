@@ -25,7 +25,6 @@
 <script lang="ts">
 // TODO: default char 각각 다르게 구현
 // TODO: 블럭 별로 CSS 커스텀 가능하도록 클래스이름 정해야함 ( .block ) => 문서 작성해야함
-// TODO: isStatic => 문서 작성해야함
 
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { PropType } from "vue";
@@ -48,14 +47,15 @@ export default class Roller extends Vue {
 	@Prop({ default: "", type: String as PropType<string> })
 	readonly defaultChar!: string;
 
-	format = new Intl.NumberFormat().format;
-	isRollStart: boolean = false;
-	isAnimationEnd = false;
+	format = new Intl.NumberFormat().format; // number comma
+	isRollStart: boolean = false; // rolling start (0.2s)
+	isAnimationEnd = false; // transition end (transition s)
 
 	mounted() {
 		// 0.2s start
 		setTimeout(() => {
-			this.isRollStart = true;
+            this.isRollStart = true;
+            // transition end
 			setTimeout(() => {
 				this.isAnimationEnd = true;
 			}, this.transition * 1000);
@@ -94,7 +94,8 @@ export default class Roller extends Vue {
 		if (!this.isIncludeCharList(t)) {
 			if (!t.trim()) return "NULL" + idx;
 			else return t + idx;
-		}
+        }
+        // comma match
 		let reg = this.getText
 			.join("")
 			.substring(0, idx + 1)

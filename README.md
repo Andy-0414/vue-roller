@@ -51,40 +51,50 @@ import Roller from "vue-roller";
 ## text (Required)
 
 ```html
-<Roller text="1234">
+<Roller text="1234"></Roller>
 ```
+
 Displays text.
 
 ## transition
 
 ```html
-<Roller transition="1">
+<Roller transition="1"></Roller>
 ```
 
-Sets the time for the animation to complete in second(s). ``0.5`` by default.
+Sets the time for the animation to complete in second(s). `0.5` by default.
 
 ## isNumberFormat
 
 ```html
-<Roller isNumberFormat="true">
+<Roller isNumberFormat="true"></Roller>
 ```
 
-Can be set to ``true`` if you want to display commas as thousands separators. ``false`` by default.
+Can be set to `true` if you want to display commas as thousands separators. `false` by default.
+
+## isStatic
+
+```html
+<Roller isStatic="true"></Roller>
+```
+
+default : false
+(FIXME)
 
 ## charList
 
 ```html
-<Roller :charList="['a', 'b', 'c']">
+<Roller :charList="['a', 'b', 'c']"></Roller>
 ```
 
 Sets the list of characters used for the animation.
 
-Default: ``["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]``
+Default: `["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]`
 
 ## defaultChar
 
 ```html
-<Roller defaultChar="0">
+<Roller defaultChar="0"></Roller>
 ```
 
-Sets the text to display when the page is first loaded (before the animation actually starts). ``""`` by default.
+Sets the text to display when the page is first loaded (before the animation actually starts). `""` by default.
