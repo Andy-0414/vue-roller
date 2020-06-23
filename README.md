@@ -98,3 +98,16 @@ Default: `["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]`
 ```
 
 Sets the text to display when the page is first loaded (before the animation actually starts). `""` by default.
+
+# Style
+
+```html
+<Roller class="roller"></Roller>
+
+<style>
+	.roller .block {
+		font-family: ~~~;
+		margin: 20px;
+	}
+</style>
+```

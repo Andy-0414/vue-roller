@@ -23,9 +23,6 @@
 
 
 <script lang="ts">
-// TODO: default char 각각 다르게 구현
-// TODO: 블럭 별로 CSS 커스텀 가능하도록 클래스이름 정해야함 ( .block ) => 문서 작성해야함
-
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { PropType } from "vue";
 
@@ -54,8 +51,8 @@ export default class Roller extends Vue {
 	mounted() {
 		// 0.2s start
 		setTimeout(() => {
-            this.isRollStart = true;
-            // transition end
+			this.isRollStart = true;
+			// transition end
 			setTimeout(() => {
 				this.isAnimationEnd = true;
 			}, this.transition * 1000);
@@ -80,11 +77,15 @@ export default class Roller extends Vue {
 				return this.format(Number(this.text))
 					.toString()
 					.split("")
-					.map(s => (s == "," ? "," : this.defaultChar));
+					.map((s, idx) =>
+						s == ","
+							? ","
+							: this.defaultChar[idx] || this.defaultChar[0]
+					);
 			} else {
 				// number comma disable
 				return [...Array(String(this.text).length)].map(
-					() => this.defaultChar
+					(_, idx) => this.defaultChar[idx] || this.defaultChar[0]
 				);
 			}
 		}
@@ -94,8 +95,8 @@ export default class Roller extends Vue {
 		if (!this.isIncludeCharList(t)) {
 			if (!t.trim()) return "NULL" + idx;
 			else return t + idx;
-        }
-        // comma match
+		}
+		// comma match
 		let reg = this.getText
 			.join("")
 			.substring(0, idx + 1)

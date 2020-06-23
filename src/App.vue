@@ -23,6 +23,7 @@
 				:isNumberFormat="isNumberFormat"
 				:transition="transition"
 				:charList="getCharList"
+				defaultChar="0"
 				class="roller"
 			></Roller>
 			<input type="text" v-model="text" />
