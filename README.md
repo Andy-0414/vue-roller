@@ -79,7 +79,7 @@ Can be set to `true` if you want to display commas as thousands separators. `fal
 ```
 
 default : false
-(FIXME)
+Used for disposable animation. (Performance improvement)
 
 ## charList
 
