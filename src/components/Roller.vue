@@ -1,12 +1,12 @@
 <template>
 	<div v-if="isStatic && isAnimationEnd" class="roller">
-		<ul class="roller__char block" v-for="(t, idx) in getText" :key="getIndex(t, idx)">
+		<ul class="roller__char rollerBlock" v-for="(t, idx) in getText" :key="getIndex(t, idx)">
 			<li class="roller__char__item" :style="{ opacity: char == ' ' ? 0 : 1 }">{{t}}</li>
 		</ul>
 	</div>
 	<transition-group tag="div" name="roller" class="roller" v-else>
 		<ul
-			class="roller__char block"
+			class="roller__char rollerBlock"
 			v-for="(t, idx) in getText"
 			:key="getIndex(t, idx)"
 			:style="{ top: `-${findCharIndex(t) * 100}%`, height: `${charList.length * 100}%`, transition: `${transition}s` }"

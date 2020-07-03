@@ -105,7 +105,7 @@ Sets the text to display when the page is first loaded (before the animation act
 <Roller class="roller"></Roller>
 
 <style>
-	.roller .block {
+	.roller .rollerBlock {
 		font-family: ~~~;
 		margin: 20px;
 	}
