@@ -241,4 +241,19 @@ button {
 		padding: 20px;
 	}
 }
+
+@media all and (max-aspect-ratio: 3/4){
+    .app{
+        .app__title{
+            font-size: 3em;
+        }
+    }
+}
+@media all and (max-aspect-ratio: 1/2){
+    .app{
+        .app__title{
+            font-size: 2em;
+        }
+    }
+}
 </style>
