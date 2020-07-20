@@ -1,7 +1,7 @@
 <template>
 	<div v-if="isStatic && isAnimationEnd" class="roller">
 		<ul class="roller__char rollerBlock" v-for="(t, idx) in getText" :key="getIndex(t, idx)">
-			<li class="roller__char__item" :style="{ opacity: char == ' ' ? 0 : 1 }">{{t}}</li>
+			<li class="roller__char__item" :style="{ opacity: t == ' ' ? 0 : 1 }">{{t}}</li>
 		</ul>
 	</div>
 	<transition-group tag="div" name="roller" class="roller" v-else>
@@ -93,15 +93,15 @@ export default class Roller extends Vue {
 	// get char index
 	getIndex(t: string, idx: number): string {
 		if (!this.isIncludeCharList(t)) {
-			if (!t.trim()) return "NULL" + idx;
-			else return t + idx;
+			if (!String(t).trim()) return "NULL" + idx;
+			else return String(t) + String(idx);
 		}
 		// comma match
 		let reg = this.getText
 			.join("")
 			.substring(0, idx + 1)
 			.match(/,/gi);
-		return (idx - (reg ? reg!.length : 0)).toString();
+		return (idx - (reg ? reg!.length || 0 : 0)).toString();
 	}
 	// is include char list
 	isIncludeCharList(t: string): boolean {
