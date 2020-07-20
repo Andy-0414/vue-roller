@@ -51,7 +51,7 @@ import { Component, Vue } from "vue-property-decorator";
 import Roller from "./components/Roller.vue";
 
 @Component({
-	components: { Roller: Roller }
+	components: { Roller }
 })
 export default class App extends Vue {
 	text: string = "1234";

@@ -5,19 +5,19 @@
 		</ul>
 	</div>
 	<transition-group tag="div" name="roller" class="roller" v-else>
-		<ul
-			class="roller__char rollerBlock"
-			v-for="(t, idx) in getText"
-			:key="getIndex(t, idx)"
-			:style="{ top: `-${findCharIndex(t) * 100}%`, height: `${charList.length * 100}%`, transition: `${transition}s` }"
-		>
-			<li
-				class="roller__char__item"
-				v-for="char in findCharIndex(t, true) != -1 ? charList : [t]"
-				:key="char"
-				:style="{ opacity: char == ' ' ? 0 : 1 }"
-			>{{ char == " " ? "l" : char }}</li>
-		</ul>
+		<div class="roller__wrapper" v-for="(t, idx) in getText" :key="getIndex(t, idx)">
+			<ul
+				class="roller__char rollerBlock"
+				:style="{ top: `${isRollStart ? findCharIndex(t) * -100 : 100}%`, height: `${charList.length * 100}%`, transition: `${transition}s` }"
+			>
+				<li
+					class="roller__char__item"
+					v-for="char in findCharIndex(t, true) != -1 ? charList : [t]"
+					:key="char"
+					:style="{ opacity: char == ' ' ? 0 : 1 }"
+				>{{ char == " " ? "l" : char }}</li>
+			</ul>
+		</div>
 	</transition-group>
 </template>
 
@@ -55,39 +55,20 @@ export default class Roller extends Vue {
 			// transition end
 			setTimeout(() => {
 				this.isAnimationEnd = true;
-			}, this.transition * 1000);
+			}, this.transition * 1000 + 200);
 		}, 200);
 	}
 	// get pre processing text
 	get getText(): string[] {
 		// is component start
-		if (this.isRollStart) {
-			if (this.isNumberFormat) {
-				// number comma enable
-				return this.format(Number(this.text))
-					.toString()
-					.split("");
-			} else {
-				// number comma disable
-				return String(this.text).split("");
-			}
+		if (this.isNumberFormat) {
+			// number comma enable
+			return this.format(Number(this.text))
+				.toString()
+				.split("");
 		} else {
-			if (this.isNumberFormat) {
-				// number comma enable
-				return this.format(Number(this.text))
-					.toString()
-					.split("")
-					.map((s, idx) =>
-						s == ","
-							? ","
-							: this.defaultChar[idx] || this.defaultChar[0]
-					);
-			} else {
-				// number comma disable
-				return [...Array(String(this.text).length)].map(
-					(_, idx) => this.defaultChar[idx] || this.defaultChar[0]
-				);
-			}
+			// number comma disable
+			return String(this.text).split("");
 		}
 	}
 	// get char index
@@ -125,48 +106,59 @@ export default class Roller extends Vue {
 }
 .roller-leave-active,
 .roller-enter-active {
-	transition: top 0.75s, opacity 0.75s;
-}
-.roller-leave-active {
-	position: absolute !important;
+	transition: top 0.75s, opacity 0.75s, width 0.75s;
 }
 .roller-move {
 	transition: 0.5s;
 }
 .roller-enter {
 	opacity: 0;
-	top: 100% !important;
+	.roller__char {
+		top: 100% !important;
+	}
 }
 .roller-enter-to {
 	opacity: 1;
 }
 .roller-leave {
 	opacity: 1;
+	width: 1em;
 }
 .roller-leave-to {
 	opacity: 0;
-	top: 100% !important;
+	width: 0;
+	.roller__char {
+		top: 100% !important;
+	}
 }
+
 .roller {
-	position: relative;
-	height: 1.5em;
-	line-height: 1.5em;
+	display: inline-flex;
+	flex-wrap: wrap;
 	overflow: hidden;
 
-	mask-image: linear-gradient(
-		0deg,
-		rgba(255, 255, 255, 0) 0%,
-		rgba(0, 0, 0, 1) 25%,
-		rgba(0, 0, 0, 1) 75%,
-		rgba(255, 255, 255, 0) 100%
-	);
-	-webkit-mask-image: linear-gradient(
-		0deg,
-		rgba(255, 255, 255, 0) 0%,
-		rgba(0, 0, 0, 1) 25%,
-		rgba(0, 0, 0, 1) 75%,
-		rgba(255, 255, 255, 0) 100%
-	);
+	.roller__wrapper {
+		display: inline-block;
+
+		position: relative;
+		height: 1.5em !important;
+		overflow: hidden;
+
+		mask-image: linear-gradient(
+			0deg,
+			rgba(255, 255, 255, 0) 0%,
+			rgba(0, 0, 0, 1) 25%,
+			rgba(0, 0, 0, 1) 75%,
+			rgba(255, 255, 255, 0) 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			0deg,
+			rgba(255, 255, 255, 0) 0%,
+			rgba(0, 0, 0, 1) 25%,
+			rgba(0, 0, 0, 1) 75%,
+			rgba(255, 255, 255, 0) 100%
+		);
+	}
 	.roller__char {
 		display: inline-flex;
 		line-height: 1.5em;
