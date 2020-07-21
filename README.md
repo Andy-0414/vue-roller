@@ -59,7 +59,7 @@ Displays text.
 ## transition
 
 ```html
-<Roller transition="1"></Roller>
+<Roller :transition="1"></Roller>
 ```
 
 Sets the time for the animation to complete in second(s). `0.5` by default.
@@ -67,7 +67,7 @@ Sets the time for the animation to complete in second(s). `0.5` by default.
 ## isNumberFormat
 
 ```html
-<Roller isNumberFormat="true"></Roller>
+<Roller :isNumberFormat="true"></Roller>
 ```
 
 Can be set to `true` if you want to display commas as thousands separators. `false` by default.
@@ -75,7 +75,7 @@ Can be set to `true` if you want to display commas as thousands separators. `fal
 ## isStatic
 
 ```html
-<Roller isStatic="true"></Roller>
+<Roller :isStatic="true"></Roller>
 ```
 
 default : false
@@ -104,7 +104,7 @@ Sets the text to display when the page is first loaded (before the animation act
 ## wordWrap
 
 ```html
-<Roller wordWrap="20"></Roller>
+<Roller :wordWrap="20"></Roller>
 ```
 
 Sets the number of line break characters (word-break: keep-all)
