@@ -97,7 +97,19 @@ Default: `["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]`
 <Roller defaultChar="0"></Roller>
 ```
 
-Sets the text to display when the page is first loaded (before the animation actually starts). `""` by default.
+Sets the text to display when the page is first loaded (before the animation actually starts).
+
+`""` by default.
+
+## wordWrap
+
+```html
+<Roller wordWrap="20"></Roller>
+```
+
+Sets the number of line break characters (word-break: keep-all)
+
+`0` by default. (word-break: break-all)
 
 # Style
 

@@ -5,8 +5,14 @@
 		</ul>
 	</div>
 	<transition-group tag="div" name="roller" class="roller" v-else>
-		<div class="roller__wrapper" v-for="(t, idx) in getText" :key="getIndex(t, idx)">
+		<component
+			:is="t != '\n' ? 'div' : 'br'"
+			class="roller__wrapper"
+			v-for="(t, idx) in getText"
+			:key="getIndex(t, idx)"
+		>
 			<ul
+				v-if="t != '\n'"
 				class="roller__char rollerBlock"
 				:style="{ top: `${isRollStart ? findCharIndex(t) * -100 : 100}%`, height: `${charList.length * 100}%`, transition: `${transition}s` }"
 			>
@@ -17,7 +23,7 @@
 					:style="{ opacity: char == ' ' ? 0 : 1 }"
 				>{{ char == " " ? "l" : char }}</li>
 			</ul>
-		</div>
+		</component>
 	</transition-group>
 </template>
 
@@ -43,6 +49,8 @@ export default class Roller extends Vue {
 	readonly transition!: number;
 	@Prop({ default: "", type: String as PropType<string> })
 	readonly defaultChar!: string;
+	@Prop({ default: 0, type: Number as PropType<number> })
+	readonly wordWrap!: number;
 
 	format = new Intl.NumberFormat().format; // number comma
 	isRollStart: boolean = false; // rolling start (0.2s)
@@ -60,15 +68,26 @@ export default class Roller extends Vue {
 	}
 	// get pre processing text
 	get getText(): string[] {
+		let wrapText: string;
+		if (this.wordWrap) {
+			const wrap = (s: string, w: number) =>
+				s.replace(
+					new RegExp(`(?![^\\n]{1,${w}}$)([^\\n]{1,${w}})\\s`, "g"),
+					"$1\n"
+				);
+			wrapText = wrap(this.text, this.wordWrap);
+		} else {
+			wrapText = this.text;
+		}
 		// is component start
 		if (this.isNumberFormat) {
 			// number comma enable
-			return this.format(Number(this.text))
+			return this.format(Number(wrapText))
 				.toString()
 				.split("");
 		} else {
 			// number comma disable
-			return String(this.text).split("");
+			return String(wrapText).split("");
 		}
 	}
 	// get char index
@@ -77,12 +96,16 @@ export default class Roller extends Vue {
 			if (!String(t).trim()) return "NULL" + idx;
 			else return String(t) + String(idx);
 		}
-		// comma match
-		let reg = this.getText
-			.join("")
-			.substring(0, idx + 1)
-			.match(/,/gi);
-		return (idx - (reg ? reg!.length || 0 : 0)).toString();
+		if (this.isNumberFormat) {
+			// comma match
+			let reg = this.getText
+				.join("")
+				.substring(0, idx + 1)
+				.match(/,/gi);
+			return (idx - (reg ? reg!.length || 0 : 0)).toString();
+		}
+
+		return idx.toString();
 	}
 	// is include char list
 	isIncludeCharList(t: string): boolean {
@@ -107,6 +130,12 @@ export default class Roller extends Vue {
 .roller-leave-active,
 .roller-enter-active {
 	transition: top 0.75s, opacity 0.75s, width 0.75s;
+}
+.roller-leave-active {
+	position: absolute;
+}
+.roller-item {
+	transition: 0.5s;
 }
 .roller-move {
 	transition: 0.5s;
@@ -133,12 +162,12 @@ export default class Roller extends Vue {
 }
 
 .roller {
-	display: inline-flex;
 	flex-wrap: wrap;
 	overflow: hidden;
+	width: fit-content;
 
 	.roller__wrapper {
-		display: inline-block;
+		display: inline-flex;
 
 		position: relative;
 		height: 1.5em !important;
@@ -159,6 +188,11 @@ export default class Roller extends Vue {
 			rgba(255, 255, 255, 0) 100%
 		);
 	}
+	/* hr.roller__wrapper {
+		margin-left: 100%;
+		height: 0 !important;
+		border: none;
+	} */
 	.roller__char {
 		display: inline-flex;
 		line-height: 1.5em;

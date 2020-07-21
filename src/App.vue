@@ -23,6 +23,7 @@
 				:isNumberFormat="isNumberFormat"
 				:transition="transition"
 				:charList="getCharList"
+				:wordWrap="Number(wordWrap)"
 				defaultChar="0"
 				class="roller"
 			></Roller>
@@ -35,6 +36,11 @@
 				transition:
 				<input type="range" v-model="transition" min="0.1" max="2" step="0.1" />
 				({{transition}})
+			</label>
+			<label>
+				wordWrap:
+				<input type="range" v-model="wordWrap" min="0" max="20" step="1" />
+				({{wordWrap}})
 			</label>
 			<label>
 				charList:
@@ -57,6 +63,7 @@ export default class App extends Vue {
 	text: string = "1234";
 	isNumberFormat: boolean = false;
 	transition: number = 0.5;
+	wordWrap: number = 0;
 	readonly numberCharList: string[] = [
 		"0",
 		"1",
@@ -189,6 +196,7 @@ button {
 
 		background-color: #354952;
 		color: white;
+
 		.roller * {
 			font-family: "Major Mono Display", monospace;
 		}
@@ -217,6 +225,10 @@ button {
 		flex-direction: column;
 		align-items: center;
 
+		.roller {
+			width: 300px !important;
+			height: 300px !important;
+		}
 		.roller * {
 			font-family: "Major Mono Display", monospace;
 		}
@@ -242,18 +254,18 @@ button {
 	}
 }
 
-@media all and (max-aspect-ratio: 3/4){
-    .app{
-        .app__title{
-            font-size: 3em;
-        }
-    }
+@media all and (max-aspect-ratio: 3/4) {
+	.app {
+		.app__title {
+			font-size: 3em;
+		}
+	}
 }
-@media all and (max-aspect-ratio: 1/2){
-    .app{
-        .app__title{
-            font-size: 2em;
-        }
-    }
+@media all and (max-aspect-ratio: 1/2) {
+	.app {
+		.app__title {
+			font-size: 2em;
+		}
+	}
 }
 </style>
