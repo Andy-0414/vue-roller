@@ -1,8 +1,12 @@
 <template>
 	<div v-if="isStatic && isAnimationEnd" class="roller">
-		<ul class="roller__char rollerBlock" v-for="(t, idx) in getText" :key="getIndex(t, idx)">
-			<li class="roller__char__item" :style="{ opacity: t == ' ' ? 0 : 1 }">{{t}}</li>
-		</ul>
+		<component
+			:is="t != '\n' ? 'div' : 'br'"
+			class="roller__char rollerBlock"
+			v-for="(t, idx) in getText"
+			:key="getIndex(t, idx)"
+			:style="{ opacity: t == ' ' ? 0 : 1 }"
+		>{{ t == " " ? "-" : t }}</component>
 	</div>
 	<transition-group tag="div" name="roller" class="roller" v-else>
 		<component
@@ -21,7 +25,7 @@
 					v-for="char in findCharIndex(t, true) != -1 ? charList : [t]"
 					:key="char"
 					:style="{ opacity: char == ' ' ? 0 : 1 }"
-				>{{ char == " " ? "l" : char }}</li>
+				>{{ char == " " ? "-" : char }}</li>
 			</ul>
 		</component>
 	</transition-group>
