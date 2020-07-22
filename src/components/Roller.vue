@@ -68,6 +68,7 @@ export default class Roller extends Vue {
 			// transition end
 			setTimeout(() => {
 				this.isAnimationEnd = true;
+				this.$emit("animationend", true);
 			}, this.transition * 1000 + 200);
 		}, 200);
 	}

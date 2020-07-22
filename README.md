@@ -111,6 +111,14 @@ Sets the number of line break characters (word-break: keep-all)
 
 `0` by default. (word-break: break-all)
 
+## Event : animationend
+
+```html
+<Roller @animationend="event"></Roller>
+```
+
+Call the event at the end of the animation.
+
 # Style
 
 ```html
