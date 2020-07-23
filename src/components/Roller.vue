@@ -1,37 +1,23 @@
 <template>
 	<div v-if="isStatic && isAnimationEnd" class="roller">
-		<component
-			:is="t != '\n' ? 'div' : 'br'"
-			class="roller__char rollerBlock"
-			v-for="(t, idx) in getText"
-			:key="getIndex(t, idx)"
-			:style="{ opacity: t == ' ' ? 0 : 1 }"
-		>{{ t == " " ? "-" : t }}</component>
+		<component :is="t != '\n' ? 'div' : 'br'" class="roller__char rollerBlock" v-for="(t, idx) in getText" :key="getIndex(t, idx)" :style="{ opacity: t == ' ' ? 0 : 1 }">{{
+			t == " " ? "-" : t
+		}}</component>
 	</div>
 	<transition-group tag="div" name="roller" class="roller" v-else>
-		<component
-			:is="t != '\n' ? 'div' : 'br'"
-			class="roller__wrapper"
-			v-for="(t, idx) in getText"
-			:key="getIndex(t, idx)"
-		>
+		<component :is="t != '\n' ? 'div' : 'br'" class="roller__wrapper" v-for="(t, idx) in getText" :key="getIndex(t, idx)">
 			<ul
 				v-if="t != '\n'"
 				class="roller__char rollerBlock"
-				:style="{ top: `${isRollStart ? findCharIndex(t) * -100 : 100}%`, height: `${charList.length * 100}%`, transition: `${transition}s` }"
+				:style="{ top: `${isRollStart ? findCharIndex(t) * -100 : getDefaultCharIndex * -100}%`, height: `${charList.length * 100}%`, transition: `${transition}s` }"
 			>
-				<li
-					class="roller__char__item"
-					:class="{'copyable':t==char}"
-					v-for="char in findCharIndex(t, true) != -1 ? charList : [t]"
-					:key="char"
-					:style="{ opacity: char == ' ' ? 0 : 1 }"
-				>{{ char == " " ? "-" : char }}</li>
+				<li class="roller__char__item" :class="{ copyable: t == char }" v-for="char in findCharIndex(t, true) != -1 ? charList : [t]" :key="char" :style="{ opacity: char == ' ' ? 0 : 1 }">
+					{{ char == " " ? "-" : char }}
+				</li>
 			</ul>
 		</component>
 	</transition-group>
 </template>
-
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
@@ -47,7 +33,7 @@ export default class Roller extends Vue {
 	readonly isStatic!: boolean;
 	@Prop({
 		default: () => ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-		type: Array as PropType<string[]>
+		type: Array as PropType<string[]>,
 	})
 	readonly charList!: string[];
 	@Prop({ default: 0.5, type: Number as PropType<number> })
@@ -72,19 +58,22 @@ export default class Roller extends Vue {
 			}, this.transition * 1000 + 200);
 		}, 200);
 	}
+
+	// get default char index
+	get getDefaultCharIndex(): number {
+		return this.charList.indexOf(this.defaultChar);
+	}
 	// get pre processing text
 	get getText(): string[] {
 		let wrapText: string;
+
 		if (this.wordWrap) {
-			const wrap = (s: string, w: number) =>
-				s.replace(
-					new RegExp(`(?![^\\n]{1,${w}}$)([^\\n]{1,${w}})\\s`, "g"),
-					"$1\n"
-				);
+			const wrap = (s: string, w: number) => s.replace(new RegExp(`(?![^\\n]{1,${w}}$)([^\\n]{1,${w}})\\s`, "g"), "$1\n");
 			wrapText = wrap(this.text, this.wordWrap);
 		} else {
 			wrapText = this.text;
 		}
+
 		// is component start
 		if (this.isNumberFormat) {
 			// number comma enable
@@ -179,20 +168,8 @@ export default class Roller extends Vue {
 		height: 1.5em !important;
 		overflow: hidden;
 
-		mask-image: linear-gradient(
-			0deg,
-			rgba(255, 255, 255, 0) 0%,
-			rgba(0, 0, 0, 1) 25%,
-			rgba(0, 0, 0, 1) 75%,
-			rgba(255, 255, 255, 0) 100%
-		);
-		-webkit-mask-image: linear-gradient(
-			0deg,
-			rgba(255, 255, 255, 0) 0%,
-			rgba(0, 0, 0, 1) 25%,
-			rgba(0, 0, 0, 1) 75%,
-			rgba(255, 255, 255, 0) 100%
-		);
+		mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 75%, rgba(255, 255, 255, 0) 100%);
+		-webkit-mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 75%, rgba(255, 255, 255, 0) 100%);
 	}
 	/* hr.roller__wrapper {
 		margin-left: 100%;
