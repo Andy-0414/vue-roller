@@ -57,7 +57,7 @@ import { Component, Vue } from "vue-property-decorator";
 import Roller from "./components/Roller.vue";
 
 @Component({
-	components: { Roller }
+	components: { Roller },
 })
 export default class App extends Vue {
 	text: string = "1234";
@@ -74,7 +74,7 @@ export default class App extends Vue {
 		"6",
 		"7",
 		"8",
-		"9"
+		"9",
 	];
 	readonly stringCharList: string[] = [
 		"a",
@@ -102,7 +102,7 @@ export default class App extends Vue {
 		"w",
 		"x",
 		"y",
-		"z"
+		"z",
 	];
 	charListMode: string = "number";
 	changeCharListMode(): void {
