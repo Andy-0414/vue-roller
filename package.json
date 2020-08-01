@@ -3,7 +3,7 @@
 	"main": "dist/vue-roller.common.js",
 	"types": "src/index.d.ts",
 	"description": "Number Rolling Counter",
-	"version": "1.12.2",
+	"version": "1.12.3",
 	"private": false,
 	"license": "MIT",
 	"keywords": [
@@ -19,7 +19,8 @@
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build --dest dist --target lib --name vue-roller --mode production ./src/index.ts",
 		"gitpage": "vue-cli-service build --dest docs --mode gitpage",
-		"upload": "npm run build && npm publish --access=public"
+		"upload": "npm run build && npm publish --access=public",
+		"deploy": "npm run gitpage & npm run upload"
 	},
 	"repository": {
 		"type": "git",
