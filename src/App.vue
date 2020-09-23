@@ -2,13 +2,7 @@
 	<div class="app">
 		<header class="app__title">
 			<h1>
-				<Roller
-					text="vue-roller"
-					:charList="stringCharList"
-					:transition="2"
-					:isStatic="true"
-					class="roller"
-				></Roller>
+				<Roller text="vue-roller" :charList="stringCharList" :transition="2" :isStatic="true" class="roller"></Roller>
 			</h1>
 			<div class="app__title__action">
 				<a href="https://github.com/Andy-0414/vue-roller">
@@ -18,15 +12,7 @@
 		</header>
 		<section class="app__content">
 			<h2>Example</h2>
-			<Roller
-				:text="text"
-				:isNumberFormat="isNumberFormat"
-				:transition="transition"
-				:charList="getCharList"
-				:wordWrap="Number(wordWrap)"
-				defaultChar="0"
-				class="roller"
-			></Roller>
+			<Roller :text="text" :isNumberFormat="isNumberFormat" :transition="transition" :charList="getCharList" :wordWrap="Number(wordWrap)" defaultChar="0" class="roller"></Roller>
 			<input type="text" v-model="text" />
 			<label>
 				isNumberFormat:
@@ -35,16 +21,16 @@
 			<label>
 				transition:
 				<input type="range" v-model="transition" min="0.1" max="2" step="0.1" />
-				({{transition}})
+				({{ transition }})
 			</label>
 			<label>
 				wordWrap:
 				<input type="range" v-model="wordWrap" min="0" max="20" step="1" />
-				({{wordWrap}})
+				({{ wordWrap }})
 			</label>
 			<label>
 				charList:
-				<span class="charlist">{{getCharList}}</span>
+				<span class="charlist">{{ getCharList }}</span>
 				<button @click="changeCharListMode">Toggle CharList</button>
 			</label>
 		</section>
@@ -64,46 +50,8 @@ export default class App extends Vue {
 	isNumberFormat: boolean = false;
 	transition: number = 0.5;
 	wordWrap: number = 0;
-	readonly numberCharList: string[] = [
-		"0",
-		"1",
-		"2",
-		"3",
-		"4",
-		"5",
-		"6",
-		"7",
-		"8",
-		"9",
-	];
-	readonly stringCharList: string[] = [
-		"a",
-		"b",
-		"c",
-		"d",
-		"e",
-		"f",
-		"g",
-		"h",
-		"i",
-		"j",
-		"k",
-		"l",
-		"m",
-		"n",
-		"o",
-		"p",
-		"q",
-		"r",
-		"s",
-		"t",
-		"u",
-		"v",
-		"w",
-		"x",
-		"y",
-		"z",
-	];
+	readonly numberCharList: string[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+	readonly stringCharList: string[] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 	charListMode: string = "number";
 	changeCharListMode(): void {
 		if (this.charListMode == "number") this.charListMode = "string";
@@ -111,9 +59,7 @@ export default class App extends Vue {
 	}
 
 	get getCharList(): string[] {
-		return this.charListMode == "number"
-			? this.numberCharList
-			: this.stringCharList;
+		return this.charListMode == "number" ? this.numberCharList : this.stringCharList;
 	}
 }
 </script>

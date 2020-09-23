@@ -67,7 +67,7 @@ export default class Roller extends Vue {
 			const wrap = (s: string, w: number) => s.replace(new RegExp(`(?![^\\n]{1,${w}}$)([^\\n]{1,${w}})\\s`, "g"), "$1\n");
 			wrapText = wrap(this.text, this.wordWrap);
 		} else {
-			wrapText = this.text;
+			wrapText = String(this.text);
 		}
 
 		// is component start
