@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "@vue/reactivity";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 interface Props {
     char?: string;
@@ -10,22 +10,62 @@ const props = withDefaults(defineProps<Props>(), {
     char: "",
     charSet: () => [...Array(10).keys()].map(String),
 });
-const isReady = ref(false);
-setTimeout(() => {
-    isReady.value = true;
-}, 100);
+
+function useAnimationManager() {
+    function reloadAnimation() {
+        isReady.value = false;
+        isEnd.value = false;
+        setTimeout(() => {
+            isReady.value = true;
+            setTimeout(() => {
+                isEnd.value = true;
+            }, 250);
+        }, 100);
+    }
+
+    const isReady = ref(false);
+    const isEnd = ref(false);
+    const prevTargetIdx = ref(0);
+
+    const w = watch(
+        () => props.char,
+        (next, prev) => {
+            prevTargetIdx.value = props.charSet.indexOf(prev);
+            reloadAnimation();
+        }
+    );
+
+    const targetIdx = computed(() => props.charSet.indexOf(props.char));
+
+    reloadAnimation();
+    return { isReady, isEnd, targetIdx, prevTargetIdx };
+}
+
+const { isReady, isEnd, targetIdx, prevTargetIdx } = useAnimationManager();
 
 const top = computed(() => {
-    let idx = props.charSet.indexOf(props.char);
-    if (!isReady.value) return "25%";
+    let idx = targetIdx.value;
+    if (!isReady.value) {
+        if (prevTargetIdx.value != -1) return `${25 - prevTargetIdx.value * 50}%`;
+        return "100%";
+    }
     if (idx == -1) return "25%";
     return `${25 - idx * 50}%`;
+});
+const shortCharSet = computed(() => {
+    if (targetIdx.value == -1) return ["-", props.char, "-"];
+    return props.charSet.slice(targetIdx.value - 1, targetIdx.value + 2);
 });
 </script>
 
 <template>
     <div class="roller-item">
-        <div class="roller-item__wrapper">
+        <div class="roller-item__wrapper" v-if="isEnd">
+            <div class="roller-item__wrapper__list" :style="{ top: '-25%' }">
+                <div class="roller-item__wrapper__list__item" v-for="item of shortCharSet">{{ item }}</div>
+            </div>
+        </div>
+        <div class="roller-item__wrapper" v-else>
             <div class="roller-item__wrapper__list" :style="{ top }">
                 <div class="roller-item__wrapper__list__item" v-for="item of charSet">{{ item }}</div>
             </div>
