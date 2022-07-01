@@ -12,6 +12,15 @@
         "email": "pjh8667@gmail.com",
         "url": "https://github.com/andy-0414"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/andy-0414/vue-roller/"
+    },
+    "homepage": "https://andy-0414.github.io/vue-roller/",
+    "bugs": {
+        "url": "https://github.com/Andy-0414/vue-roller/issues",
+        "email": "pjh8667@gmail.com"
+    },
     "files": [
         "dist"
     ],
@@ -27,7 +36,8 @@
     "scripts": {
         "dev": "vite",
         "build": "vue-tsc --noEmit && vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "publish": "npm run build && npm publish --access=public"
     },
     "dependencies": {
         "@mdi/js": "^6.7.96",
