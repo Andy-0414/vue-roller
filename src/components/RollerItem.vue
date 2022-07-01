@@ -1,47 +1,21 @@
 <script setup lang="ts">
 import { computed } from "@vue/reactivity";
-import { ref, watch } from "vue";
+import { toRefs } from "vue";
+import useAnimationManager from "../composables/useAnimationManager";
 
 interface Props {
     char?: string;
+    duration?: number;
     charSet?: string[];
 }
 const props = withDefaults(defineProps<Props>(), {
     char: "",
     charSet: () => [...Array(10).keys()].map(String),
+    duration: 250,
 });
+const { char, charSet, duration } = toRefs(props);
 
-function useAnimationManager() {
-    function reloadAnimation() {
-        isReady.value = false;
-        isEnd.value = false;
-        setTimeout(() => {
-            isReady.value = true;
-            setTimeout(() => {
-                isEnd.value = true;
-            }, 250);
-        }, 100);
-    }
-
-    const isReady = ref(false);
-    const isEnd = ref(false);
-    const prevTargetIdx = ref(0);
-
-    const w = watch(
-        () => props.char,
-        (next, prev) => {
-            prevTargetIdx.value = props.charSet.indexOf(prev);
-            reloadAnimation();
-        }
-    );
-
-    const targetIdx = computed(() => props.charSet.indexOf(props.char));
-
-    reloadAnimation();
-    return { isReady, isEnd, targetIdx, prevTargetIdx };
-}
-
-const { isReady, isEnd, targetIdx, prevTargetIdx } = useAnimationManager();
+const { isReady, isEnd, targetIdx, prevTargetIdx } = useAnimationManager(char, charSet, duration);
 
 const top = computed(() => {
     let idx = targetIdx.value;
@@ -61,12 +35,12 @@ const shortCharSet = computed(() => {
 <template>
     <div class="roller-item">
         <div class="roller-item__wrapper" v-if="isEnd">
-            <div class="roller-item__wrapper__list" :style="{ top: '-25%' }">
+            <div class="roller-item__wrapper__list" :style="{ top: '-25%', transition: `${duration}ms` }">
                 <div class="roller-item__wrapper__list__item" v-for="item of shortCharSet">{{ item }}</div>
             </div>
         </div>
         <div class="roller-item__wrapper" v-else>
-            <div class="roller-item__wrapper__list" :style="{ top }">
+            <div class="roller-item__wrapper__list" :style="{ top, transition: `${duration}ms` }">
                 <div class="roller-item__wrapper__list__item" v-for="item of charSet">{{ item }}</div>
             </div>
         </div>
