@@ -28,6 +28,7 @@ const top = computed(() => {
 });
 const shortCharSet = computed(() => {
     if (targetIdx.value == -1) return ["-", props.char, "-"];
+    if (targetIdx.value == 0) return ["", props.char, props.charSet[targetIdx.value + 1]];
     return props.charSet.slice(targetIdx.value - 1, targetIdx.value + 2);
 });
 </script>
