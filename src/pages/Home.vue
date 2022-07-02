@@ -5,7 +5,7 @@ const text = ref("");
 </script>
 
 <template>
-    <div class="home">
+    <div class="home" style="padding: 100px; font-size: 2em">
         <Roller :value="text"></Roller>
         <input v-model="text" type="text" style="margin-top: 20px" />
     </div>

@@ -11,7 +11,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     char: "",
     charSet: () => [...Array(10).keys()].map(String),
-    duration: 250,
+    duration: 500,
 });
 const { char, charSet, duration } = toRefs(props);
 
@@ -27,8 +27,9 @@ const top = computed(() => {
     return `${25 - idx * 50}%`;
 });
 const shortCharSet = computed(() => {
-    if (targetIdx.value == -1) return ["-", props.char, "-"];
+    if (targetIdx.value == -1) return ["", props.char, ""];
     if (targetIdx.value == 0) return ["", props.char, props.charSet[targetIdx.value + 1]];
+    if (targetIdx.value == charSet.value.length - 1) return [props.charSet[targetIdx.value - 1], props.char, ""];
     return props.charSet.slice(targetIdx.value - 1, targetIdx.value + 2);
 });
 </script>
@@ -36,7 +37,7 @@ const shortCharSet = computed(() => {
 <template>
     <div class="roller-item">
         <div class="roller-item__wrapper" v-if="isEnd">
-            <div class="roller-item__wrapper__list" :style="{ top: '-25%', transition: `${duration}ms` }">
+            <div class="roller-item__wrapper__list">
                 <div class="roller-item__wrapper__list__item" v-for="item of shortCharSet">{{ item }}</div>
             </div>
         </div>
@@ -58,6 +59,9 @@ const shortCharSet = computed(() => {
     .roller-item__wrapper {
         position: relative;
 
+        display: flex;
+        align-items: center;
+
         width: 100%;
         height: 200%;
 
@@ -68,11 +72,12 @@ const shortCharSet = computed(() => {
         mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 75%, rgba(255, 255, 255, 0) 100%);
         -webkit-mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 75%, rgba(255, 255, 255, 0) 100%);
 
+        /* mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 1) 55%, rgba(255, 255, 255, 0) 80%);
+        -webkit-mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 1) 55%, rgba(255, 255, 255, 0) 80%); */
+
         box-sizing: border-box;
         .roller-item__wrapper__list {
             position: absolute;
-
-            top: 25%;
 
             display: flex;
             flex-direction: column;
