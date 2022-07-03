@@ -4,7 +4,7 @@ import { toRefs, ref, Ref } from "vue";
 import useAnimationManager from "../../composables/useAnimationManager";
 import useMeasureText from "../../composables/useMeasureText";
 import useSelectElement from "../../composables/useSelectElement";
-import { RollerItemMode } from "./";
+import { RollerCharSet, RollerItemCharSet, RollerItemMode } from "./";
 
 interface Props {
     char?: string;
@@ -14,7 +14,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
     char: "",
-    charSet: () => [...Array(10).keys()].map(String),
+    charSet: () => RollerCharSet[RollerItemCharSet.NUMBER],
     duration: 500,
     mode: RollerItemMode.SHORT,
 });
@@ -64,12 +64,12 @@ const shortCharSet = computed(() => {
     <div class="roller-item" :style="{ width: `${width}px` }">
         <div class="roller-item__wrapper" :class="{ 'roller-item__wrapper--short': mode == RollerItemMode.SHORT }" v-if="isEnd">
             <div class="roller-item__wrapper__list">
-                <div class="roller-item__wrapper__list__item" v-for="item of shortCharSet" ref="itemElements">{{ item }}</div>
+                <div class="roller-item__wrapper__list__item" :class="{ 'roller-item__wrapper__list__item--target': item == char }" v-for="item of shortCharSet" ref="itemElements">{{ item }}</div>
             </div>
         </div>
         <div class="roller-item__wrapper" :class="{ 'roller-item__wrapper--short': mode == RollerItemMode.SHORT }" v-else>
             <div class="roller-item__wrapper__list" :style="{ top, transition: `${duration}ms` }">
-                <div class="roller-item__wrapper__list__item" v-for="item of charSet" ref="itemElements">{{ item }}</div>
+                <div class="roller-item__wrapper__list__item" :class="{ 'roller-item__wrapper__list__item--target': item == char }" v-for="item of charSet" ref="itemElements">{{ item }}</div>
             </div>
         </div>
     </div>
@@ -125,6 +125,11 @@ const shortCharSet = computed(() => {
                 height: 1em;
 
                 box-sizing: border-box;
+
+                user-select: none;
+            }
+            .roller-item__wrapper__list__item--target {
+                user-select: text;
             }
         }
     }
