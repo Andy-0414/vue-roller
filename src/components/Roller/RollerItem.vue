@@ -61,7 +61,7 @@ const shortCharSet = computed(() => {
 </script>
 
 <template>
-    <div class="roller-item" :style="{ width: `${width}px` }">
+    <div class="roller-item" :style="{ width: `${width}px`, transition: `${duration}ms` }">
         <div class="roller-item__wrapper" :class="{ 'roller-item__wrapper--short': mode == RollerItemMode.SHORT }" v-if="isEnd">
             <div class="roller-item__wrapper__list">
                 <div class="roller-item__wrapper__list__item" :class="{ 'roller-item__wrapper__list__item--target': item == char }" v-for="item of shortCharSet" ref="itemElements">{{ item }}</div>
@@ -80,8 +80,6 @@ const shortCharSet = computed(() => {
     position: relative;
 
     height: 1em;
-
-    transition: 0.25s;
 
     .roller-item__wrapper {
         position: relative;
@@ -102,8 +100,8 @@ const shortCharSet = computed(() => {
         box-sizing: border-box;
 
         &.roller-item__wrapper--short {
-            mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 1) 55%, rgba(255, 255, 255, 0) 80%);
-            -webkit-mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 1) 55%, rgba(255, 255, 255, 0) 80%);
+            mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 70%, rgba(255, 255, 255, 0) 80%);
+            -webkit-mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 70%, rgba(255, 255, 255, 0) 80%);
         }
         .roller-item__wrapper__list {
             position: absolute;

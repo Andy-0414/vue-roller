@@ -1,4 +1,4 @@
-import { nextTick, onMounted, Ref, ref, watch } from "vue";
+import { onMounted, Ref, ref, watch } from "vue";
 
 /**
  
@@ -12,7 +12,7 @@ export default function useMeasureText(itemElement: Ref<HTMLDivElement | null>) 
 
     onMounted(updateWidth);
 
-    watch(() => itemElement, updateWidth);
+    watch(itemElement, updateWidth);
 
     return { width };
 }

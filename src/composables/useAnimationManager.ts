@@ -27,13 +27,10 @@ export default function useAnimationManager(char: Ref<string>, charSet: Ref<stri
     }
 
     // Check char value change
-    const w = watch(
-        () => char.value,
-        (next, prev) => {
-            prevTargetIdx.value = charSet.value.indexOf(prev);
-            reloadAnimation();
-        }
-    );
+    const w = watch(char, (next, prev) => {
+        prevTargetIdx.value = charSet.value.indexOf(prev);
+        reloadAnimation();
+    });
 
     reloadAnimation();
 
