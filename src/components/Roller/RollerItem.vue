@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed } from "@vue/reactivity";
-import { toRefs } from "vue";
+import { toRefs, ref, Ref } from "vue";
 import useAnimationManager from "../../composables/useAnimationManager";
+import useMeasureText from "../../composables/useMeasureText";
+import useSelectElement from "../../composables/useSelectElement";
 import { RollerItemMode } from "./";
 
 interface Props {
@@ -19,6 +21,10 @@ const props = withDefaults(defineProps<Props>(), {
 const { char, charSet, duration } = toRefs(props);
 
 const { isReady, isEnd, targetIdx, prevTargetIdx } = useAnimationManager(char, charSet, duration);
+
+const itemElements: Ref<HTMLDivElement[]> = ref([]);
+const { itemElement } = useSelectElement(itemElements, targetIdx);
+const { width } = useMeasureText(itemElement);
 
 /**
  * @description Now the top value of the roller
@@ -55,15 +61,15 @@ const shortCharSet = computed(() => {
 </script>
 
 <template>
-    <div class="roller-item">
+    <div class="roller-item" :style="{ width: `${width}px` }">
         <div class="roller-item__wrapper" :class="{ 'roller-item__wrapper--short': mode == RollerItemMode.SHORT }" v-if="isEnd">
             <div class="roller-item__wrapper__list">
-                <div class="roller-item__wrapper__list__item" v-for="item of shortCharSet">{{ item }}</div>
+                <div class="roller-item__wrapper__list__item" v-for="item of shortCharSet" ref="itemElements">{{ item }}</div>
             </div>
         </div>
         <div class="roller-item__wrapper" :class="{ 'roller-item__wrapper--short': mode == RollerItemMode.SHORT }" v-else>
             <div class="roller-item__wrapper__list" :style="{ top, transition: `${duration}ms` }">
-                <div class="roller-item__wrapper__list__item" v-for="item of charSet">{{ item }}</div>
+                <div class="roller-item__wrapper__list__item" v-for="item of charSet" ref="itemElements">{{ item }}</div>
             </div>
         </div>
     </div>
@@ -73,8 +79,9 @@ const shortCharSet = computed(() => {
 .roller-item {
     position: relative;
 
-    width: 1em;
     height: 1em;
+
+    transition: 0.25s;
 
     .roller-item__wrapper {
         position: relative;
@@ -101,7 +108,10 @@ const shortCharSet = computed(() => {
         .roller-item__wrapper__list {
             position: absolute;
 
+            width: 100%;
+
             display: flex;
+            align-items: center;
             flex-direction: column;
 
             box-sizing: border-box;
@@ -111,7 +121,7 @@ const shortCharSet = computed(() => {
             .roller-item__wrapper__list__item {
                 display: flex;
 
-                width: 1em;
+                width: fit-content;
                 height: 1em;
 
                 box-sizing: border-box;
