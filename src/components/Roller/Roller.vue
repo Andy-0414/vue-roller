@@ -1,9 +1,13 @@
+<script lang="ts"></script>
 <script setup lang="ts">
 import { computed } from "@vue/reactivity";
 import RollerItem from "./RollerItem.vue";
+import { RollerItemMode } from "./";
 
 interface Props {
     value?: string;
+    charSet?: string[];
+    mode?: RollerItemMode | string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -15,7 +19,7 @@ const charArray = computed(() => props.value.split(""));
 
 <template>
     <div class="roller">
-        <RollerItem :char="char" v-for="char of charArray"></RollerItem>
+        <RollerItem :char="char" :mode="mode" v-for="char of charArray"></RollerItem>
     </div>
 </template>
 

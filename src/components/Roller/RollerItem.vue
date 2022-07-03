@@ -1,20 +1,14 @@
-<script lang="ts">
-enum RollerItemMode {
-    SHORT = "short",
-    LONG = "long",
-}
-</script>
-
 <script setup lang="ts">
 import { computed } from "@vue/reactivity";
 import { toRefs } from "vue";
-import useAnimationManager from "../composables/useAnimationManager";
+import useAnimationManager from "../../composables/useAnimationManager";
+import { RollerItemMode } from "./";
 
 interface Props {
     char?: string;
     duration?: number;
     charSet?: string[];
-    mode?: RollerItemMode;
+    mode?: RollerItemMode | string;
 }
 const props = withDefaults(defineProps<Props>(), {
     char: "",
