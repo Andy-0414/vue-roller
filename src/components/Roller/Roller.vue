@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
     value: "123",
 });
 
-const charArray = computed(() => props.value.split(""));
+const charArray = computed(() => [...props.value]);
 const computedCharSet = computed(() => {
     if (Array.isArray(props.charSet)) return props.charSet as string[];
     return RollerCharSet[props.charSet as RollerItemCharSet];
