@@ -1,16 +1,135 @@
-# Vue 3 + TypeScript + Vite
+![Animated logo](https://github.com/andy-0414/vue-roller/blob/master/img/vue-roller.webp?raw=true)
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+[![License](https://img.shields.io/npm/l/vue-roller.svg?sanitize=true)](https://www.npmjs.com/package/vue-roller)
+[![Version](https://img.shields.io/npm/v/vue-roller.svg?sanitize=true)](https://www.npmjs.com/package/vue-roller)
 
-## Recommended IDE Setup
+# vue-roller
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+Fluid and smooth rolling animation for Vue.js
 
-## Type Support For `.vue` Imports in TS
+# Demo
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+![Animated Demo](https://github.com/andy-0414/vue-roller/blob/master/img/example1.webp?raw=true)
+![Animated Demo](https://github.com/andy-0414/vue-roller/blob/master/img/example2.webp?raw=true)
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+Try out [here](http://andy-0414.github.io/vue-roller) with your own text!
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+# Getting Started
+
+npm (Vue.js 2)
+
+```sh
+npm i vue-roller@1.12.7
+```
+
+Vue
+
+```js
+import Roller from "vue-roller";
+
+export default {
+    components:{
+        Roller
+    }
+}
+...
+```
+
+Vue-typescript
+
+```js
+import Roller from "vue-roller";
+
+@Component({
+	components: { Roller }
+})
+...
+```
+
+# Options
+
+## text (Required)
+
+```html
+<Roller text="1234"></Roller>
+```
+
+Displays text.
+
+## transition
+
+```html
+<Roller :transition="1"></Roller>
+```
+
+Sets the time for the animation to complete in second(s). `0.5` by default.
+
+## isNumberFormat
+
+```html
+<Roller :isNumberFormat="true"></Roller>
+```
+
+Can be set to `true` if you want to display commas as thousands separators. `false` by default.
+
+## isStatic
+
+```html
+<Roller :isStatic="true"></Roller>
+```
+
+default : false
+Used for disposable animation. (Performance improvement)
+
+## charList
+
+```html
+<Roller :charList="['a', 'b', 'c']"></Roller>
+```
+
+Sets the list of characters used for the animation.
+
+Default: `["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]`
+
+## defaultChar
+
+```html
+<Roller defaultChar="0"></Roller>
+```
+
+Sets the text to display when the page is first loaded (before the animation actually starts).
+
+Must be included in charList.
+
+`""` by default.
+
+## wordWrap
+
+```html
+<Roller :wordWrap="20"></Roller>
+```
+
+Sets the number of line break characters (word-break: keep-all)
+
+`0` by default. (word-break: break-all)
+
+## Event : animationend
+
+```html
+<Roller @animationend="event"></Roller>
+```
+
+Call the event at the end of the animation.
+
+# Style
+
+```html
+<Roller class="roller"></Roller>
+
+<style>
+	.roller .rollerBlock {
+		font-family: ~~~;
+		margin: 20px;
+	}
+</style>
+```
