@@ -14,16 +14,26 @@ export default function useAnimationManager(char: Ref<string>, charSet: Ref<stri
     const targetIdx = computed(() => charSet.value.indexOf(char.value)); // Target index in charSet
     const prevTargetIdx = ref(0); // Target index in charSet just before
 
+    const reloadAnimation = useReloadAnimation(isReady, isEnd);
+
     // An animation start function that runs when a value changes
-    function reloadAnimation() {
-        isReady.value = false;
-        isEnd.value = false;
-        setTimeout(() => {
-            isReady.value = true;
-            setTimeout(() => {
-                isEnd.value = true;
-            }, duration.value);
-        }, 100);
+    function useReloadAnimation(isReady: Ref<boolean>, isEnd: Ref<boolean>) {
+        let outerTimer: ReturnType<typeof setTimeout>;
+        let innerTimer: ReturnType<typeof setTimeout>;
+
+        return () => {
+            isReady.value = false;
+            isEnd.value = false;
+            clearTimeout(outerTimer);
+            clearTimeout(innerTimer);
+
+            outerTimer = setTimeout(() => {
+                isReady.value = true;
+                innerTimer = setTimeout(() => {
+                    isEnd.value = true;
+                }, duration.value);
+            }, 100);
+        };
     }
 
     // Check char value change
