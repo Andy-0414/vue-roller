@@ -4,15 +4,15 @@ const path = require("path");
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    plugins: [vue()],
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "./src"),
         },
     },
-    plugins: [vue()],
     build: {
         lib: {
-            entry: path.resolve(__dirname, "src/components/index.ts"),
+            entry: path.resolve(__dirname, "src/index.ts"),
             name: "vue-roller",
             fileName: (format) => `vue-roller.${format}.js`,
         },
@@ -24,6 +24,7 @@ export default defineConfig({
                 },
             },
         },
+        emptyOutDir: false,
     },
     esbuild: {
         jsxInject: `import { h } from 'vue'`,

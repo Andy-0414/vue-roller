@@ -1,4 +1,4 @@
-import { computed } from "@vue/reactivity";
+import { computed } from "vue";
 import { Ref, ref, watch } from "vue";
 
 /**
@@ -12,7 +12,7 @@ export default function useAnimationManager(char: Ref<string>, charSet: Ref<stri
     const isEnd = ref(false); // End all animations
 
     const targetIdx = computed(() => charSet.value.indexOf(char.value)); // Target index in charSet
-    const prevTargetIdx = ref(0); // Target index in charSet just before
+    const prevTargetIdx = ref(-1); // Target index in charSet just before
 
     const reloadAnimation = useReloadAnimation(isReady, isEnd);
 
@@ -28,8 +28,10 @@ export default function useAnimationManager(char: Ref<string>, charSet: Ref<stri
             clearTimeout(innerTimer);
 
             outerTimer = setTimeout(() => {
+                console.log("isReady");
                 isReady.value = true;
                 innerTimer = setTimeout(() => {
+                    console.log("isEnd");
                     isEnd.value = true;
                 }, duration.value);
             }, 100);

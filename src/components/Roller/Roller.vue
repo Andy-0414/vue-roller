@@ -1,10 +1,9 @@
-<script lang="ts"></script>
 <script setup lang="ts">
-import { computed } from "@vue/reactivity";
+import { computed } from "vue";
 import RollerItem from "./RollerItem.vue";
 import { RollerCharSet, RollerItemCharSet, RollerItemMode } from "./";
 
-interface Props {
+export interface Props {
     value?: string;
     duration?: number;
     charSet?: string[] | RollerItemCharSet | string;

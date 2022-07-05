@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "target": "esnext",
     "useDefineForClassFields": true,
     "module": "esnext",
@@ -11,6 +12,7 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
+    "declaration": true,
     "skipLibCheck": true,
     "types": [
       "node"

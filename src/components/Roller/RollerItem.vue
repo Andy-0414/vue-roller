@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { computed } from "@vue/reactivity";
-import { toRefs, ref, Ref } from "vue";
+import { toRefs, ref, Ref, computed } from "vue";
 import useAnimationManager from "../../composables/useAnimationManager";
 import useMeasureText from "../../composables/useMeasureText";
 import useSelectElement from "../../composables/useSelectElement";
 import { RollerCharSet, RollerItemCharSet, RollerItemMode } from "./";
 
-interface Props {
+export interface Props {
     char?: string;
     duration?: number;
     charSet?: string[];
@@ -18,6 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
     duration: 500,
     mode: RollerItemMode.SHORT,
 });
+
 const { char, charSet, duration } = toRefs(props);
 
 const { isReady, isEnd, targetIdx, prevTargetIdx } = useAnimationManager(char, charSet, duration);
@@ -30,13 +30,12 @@ const { width } = useMeasureText(itemElement);
  * @description Now the top value of the roller
  */
 const top = computed(() => {
-    let idx = targetIdx.value;
     if (!isReady.value) {
         if (prevTargetIdx.value != -1) return `${25 - prevTargetIdx.value * 50}%`;
         return "100%";
     }
-    if (idx == -1) return "25%";
-    return `${25 - idx * 50}%`;
+    if (targetIdx.value == -1) return "25%";
+    return `${25 - targetIdx.value * 50}%`;
 });
 
 /**

@@ -1,6 +1,6 @@
 {
     "name": "vue-roller",
-    "version": "2.0.0-alpha.1",
+    "version": "2.0.0-alpha.24",
     "private": false,
     "license": "MIT",
     "keywords": [
@@ -24,25 +24,25 @@
     "files": [
         "dist"
     ],
-    "types": "src/index.d.ts",
+    "types": "./dist/index.d.ts",
     "main": "./dist/vue-roller.umd.js",
     "module": "./dist/vue-roller.es.js",
     "exports": {
         ".": {
             "import": "./dist/vue-roller.es.js",
             "require": "./dist/vue-roller.umd.js"
-        }
+        },
+        "./dist/style.css": "./dist/style.css"
     },
     "scripts": {
         "dev": "vite",
-        "build": "vue-tsc --noEmit && vite build",
+        "build": "vite build && vue-tsc --emitDeclarationOnly",
         "preview": "vite preview",
-        "publish": "npm run build && npm publish --access=public"
+        "p": "npm run build && npm publish --access=public"
     },
     "dependencies": {
         "@mdi/js": "^6.7.96",
-        "vue": "^3.2.25",
-        "vue-router": "^4.0.15"
+        "vue": "^3.2.25"
     },
     "devDependencies": {
         "@types/node": "^18.0.0",
