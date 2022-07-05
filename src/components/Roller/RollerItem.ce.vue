@@ -8,7 +8,7 @@ import { RollerCharSet, RollerItemCharSet, RollerItemMode } from "./";
 export interface Props {
     char?: string;
     duration?: number;
-    charSet?: string[];
+    charSet?: string[] | RollerItemCharSet | string;
     mode?: RollerItemMode | string;
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -17,10 +17,19 @@ const props = withDefaults(defineProps<Props>(), {
     duration: 500,
     mode: RollerItemMode.SHORT,
 });
-
 const { char, charSet, duration } = toRefs(props);
 
-const { isReady, isEnd, targetIdx, prevTargetIdx } = useAnimationManager(char, charSet, duration);
+const computedCharSet = computed(() => {
+    if (RollerCharSet[props.charSet as RollerItemCharSet]) return RollerCharSet[props.charSet as RollerItemCharSet];
+    if (Array.isArray(props.charSet)) return props.charSet as string[];
+    if ((String(props.charSet as string)?.split(",").length || 0) >= 2)
+        return String(props.charSet)
+            ?.split(",")
+            .map((i) => i.trim());
+    return [];
+});
+
+const { isReady, isEnd, targetIdx, prevTargetIdx } = useAnimationManager(char, computedCharSet, duration);
 
 const itemElements: Ref<HTMLDivElement[]> = ref([]);
 const { itemElement } = useSelectElement(itemElements, targetIdx);
@@ -30,6 +39,7 @@ const { width } = useMeasureText(itemElement);
  * @description Now the top value of the roller
  */
 const top = computed(() => {
+    // console.log(props.charSet, isReady.value, isEnd.value, targetIdx.value, prevTargetIdx.value);
     if (!isReady.value) {
         if (prevTargetIdx.value != -1) return `${25 - prevTargetIdx.value * 50}%`;
         return "100%";
@@ -49,13 +59,13 @@ const shortCharSet = computed(() => {
     if (targetIdx.value == -1) return ["", props.char, ""];
 
     // at the beginning of the array
-    if (targetIdx.value == 0) return ["", props.char, props.charSet[targetIdx.value + 1]];
+    if (targetIdx.value == 0) return ["", props.char, computedCharSet.value[targetIdx.value + 1]];
 
     // at the end of the array
-    if (targetIdx.value == charSet.value.length - 1) return [props.charSet[targetIdx.value - 1], props.char, ""];
+    if (targetIdx.value == charSet.value.length - 1) return [computedCharSet.value[targetIdx.value - 1], props.char, ""];
 
     // in all other cases
-    return props.charSet.slice(targetIdx.value - 1, targetIdx.value + 2);
+    return computedCharSet.value.slice(targetIdx.value - 1, targetIdx.value + 2);
 });
 </script>
 
@@ -68,13 +78,15 @@ const shortCharSet = computed(() => {
         </div>
         <div class="roller-item__wrapper" :class="{ 'roller-item__wrapper--short': mode == RollerItemMode.SHORT }" v-else>
             <div class="roller-item__wrapper__list" :style="{ top, transition: `${duration}ms` }">
-                <div class="roller-item__wrapper__list__item" :class="{ 'roller-item__wrapper__list__item--target': item == char }" v-for="item of charSet" ref="itemElements">{{ item }}</div>
+                <div class="roller-item__wrapper__list__item" :class="{ 'roller-item__wrapper__list__item--target': item == char }" v-for="item of computedCharSet" ref="itemElements">
+                    {{ item }}
+                </div>
             </div>
         </div>
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .roller-item {
     position: relative;
 

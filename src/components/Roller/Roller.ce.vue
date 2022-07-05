@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import RollerItem from "./RollerItem.vue";
-import { RollerCharSet, RollerItemCharSet, RollerItemMode } from "./";
+import { RollerItemCharSet, RollerItemMode } from "./";
 
 export interface Props {
     value?: string;
@@ -12,22 +11,19 @@ export interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     value: "123",
+    charSet: "number",
 });
 
 const charArray = computed(() => [...props.value]);
-const computedCharSet = computed(() => {
-    if (Array.isArray(props.charSet)) return props.charSet as string[];
-    return RollerCharSet[props.charSet as RollerItemCharSet];
-});
 </script>
 
 <template>
     <div class="roller">
-        <RollerItem :char="char" :duration="duration" :charSet="computedCharSet" :mode="mode" v-for="char of charArray"></RollerItem>
+        <vue-roller-item :char="char" :duration="duration" :char-set="charSet" :mode="mode" v-for="char of charArray"></vue-roller-item>
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .roller {
     display: flex;
 }

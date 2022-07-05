@@ -4,7 +4,17 @@ const path = require("path");
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue()],
+    plugins: [
+        vue({
+            template: {
+                compilerOptions: {
+                    // treat all tags with a dash as custom elements
+                    isCustomElement: (tag) => tag.includes("-"),
+                },
+            },
+            customElement: /\.ce\.vue$/,
+        }),
+    ],
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "./src"),

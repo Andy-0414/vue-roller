@@ -28,10 +28,8 @@ export default function useAnimationManager(char: Ref<string>, charSet: Ref<stri
             clearTimeout(innerTimer);
 
             outerTimer = setTimeout(() => {
-                console.log("isReady");
                 isReady.value = true;
                 innerTimer = setTimeout(() => {
-                    console.log("isEnd");
                     isEnd.value = true;
                 }, duration.value);
             }, 100);
