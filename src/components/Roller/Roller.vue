@@ -6,6 +6,7 @@ import useReloadAnimation from "../../composables/animation/useReloadAnimation";
 
 export interface Props {
     value?: string;
+    defaultValue?: string;
     duration?: number;
     charSet?: string[] | RollerItemCharSet | string;
     mode?: RollerItemMode | string;
@@ -13,6 +14,7 @@ export interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     value: "123",
+    defaultValue: "",
     duration: 500,
 });
 const { duration, value } = toRefs(props);
@@ -30,6 +32,7 @@ reloadAnimation();
 
 // char & char-set
 const charArray = computed(() => [...props.value]);
+const defaultCharArray = computed(() => [...props.defaultValue]);
 const computedCharSet = computed(() => {
     if (Array.isArray(props.charSet)) return props.charSet as string[];
     return RollerCharSet[props.charSet as RollerItemCharSet];
@@ -38,7 +41,7 @@ const computedCharSet = computed(() => {
 
 <template>
     <TransitionGroup tag="div" name="roller-list" class="roller">
-        <RollerItem :char="char" :duration="duration" :charSet="computedCharSet" :mode="mode" v-for="(char, idx) of charArray" :key="idx"></RollerItem>
+        <RollerItem :char="char" :duration="duration" :charSet="computedCharSet" :defaultChar="defaultCharArray[idx]" :mode="mode" v-for="(char, idx) of charArray" :key="idx"></RollerItem>
     </TransitionGroup>
 </template>
 
