@@ -16,119 +16,83 @@ Try out [here](http://andy-0414.github.io/vue-roller) with your own text!
 
 # Getting Started
 
-npm (Vue.js 2)
-
-```sh
+Vue2
+```
 npm i vue-roller@1.12.7
 ```
 
-Vue
+Vue3
 
-```js
-import Roller from "vue-roller";
-
-export default {
-    components:{
-        Roller
-    }
-}
-...
+```
+npm i vue-roller
 ```
 
-Vue-typescript
+setup script
+```ts
+<script setup lang="ts">
+import { Roller } from "vue-roller";
+import "vue-roller/dist/style.css";
+</script>
+```
+OR
 
-```js
-import Roller from "vue-roller";
+src/main.ts (plugin)
+```ts
+import VueRoller from "vue-roller";
+import "vue-roller/dist/style.css";
 
-@Component({
-	components: { Roller }
-})
-...
+createApp(App).use(VueRoller)
 ```
 
 # Options
 
-## text (Required)
+## value (Required)
 
 ```html
-<Roller text="1234"></Roller>
+<Roller value="1234"></Roller>
 ```
 
 Displays text.
 
-## transition
+## default-value
 
 ```html
-<Roller :transition="1"></Roller>
-```
-
-Sets the time for the animation to complete in second(s). `0.5` by default.
-
-## isNumberFormat
-```html
-<Roller :isNumberFormat="true"></Roller>
-```
-
-Can be set to `true` if you want to display commas as thousands separators. `false` by default.
-
-## isStatic
-
-```html
-<Roller :isStatic="true"></Roller>
-```
-
-default : false
-Used for disposable animation. (Performance improvement)
-
-## charList
-
-```html
-<Roller :charList="['a', 'b', 'c']"></Roller>
-```
-
-Sets the list of characters used for the animation.
-
-Default: `["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]`
-
-## defaultChar
-
-```html
-<Roller defaultChar="0"></Roller>
+<Roller default-value="1111"></Roller>
 ```
 
 Sets the text to display when the page is first loaded (before the animation actually starts).
 
-Must be included in charList.
+Must be included in char-set.
 
 `""` by default.
 
-## wordWrap
+
+## duration
 
 ```html
-<Roller :wordWrap="20"></Roller>
+<Roller :duration="1000"></Roller>
 ```
 
-Sets the number of line break characters (word-break: keep-all)
+Sets the time for the animation to complete in millisecond(ms). `500` by default.
 
-`0` by default. (word-break: break-all)
-
-## Event : animationend
+## char-set
 
 ```html
-<Roller @animationend="event"></Roller>
+<Roller :char-set="number"></Roller>
+<Roller :char-set="alphabet"></Roller>
+<Roller :char-set="['😀', '😃', '😄']"></Roller>
+```
+
+Sets the list of characters used for the animation.
+
+Preset: `number`, `alphabet`
+Default: `number`
+
+## Event: animation-end
+
+```html
+<Roller @animation-end="event"></Roller>
 ```
 
 Call the event at the end of the animation.
 
-# Style
-
-```html
-<Roller class="roller"></Roller>
-
-<style>
-	.roller .rollerBlock {
-		font-family: ~~~;
-		margin: 20px;
-	}
-</style>
-```
