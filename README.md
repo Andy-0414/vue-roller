@@ -16,12 +16,12 @@ Try out [here](http://andy-0414.github.io/vue-roller) with your own text!
 
 # Getting Started
 
-Vue2
+[Vue2 (legacy)](https://github.com/Andy-0414/vue-roller/blob/master/README.vue2.md)
 ```
 npm i vue-roller@1.12.7
 ```
 
-Vue3
+Vue3 (recommended)
 
 ```
 npm i vue-roller
@@ -95,4 +95,3 @@ Default: `number`
 ```
 
 Call the event at the end of the animation.
-
