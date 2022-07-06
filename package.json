@@ -1,60 +1,55 @@
 {
-	"name": "vue-roller",
-	"main": "dist/vue-roller.common.js",
-	"types": "src/index.d.ts",
-	"description": "Number Rolling Counter",
-	"version": "1.12.7",
-	"private": false,
-	"license": "MIT",
-	"keywords": [
-		"vue",
-		"roller"
-	],
-	"author": {
-		"name": "Park JongHoon",
-		"email": "pjh8667@gmail.com",
-		"url": "http://andy0414.com"
-	},
-	"scripts": {
-		"serve": "vue-cli-service serve",
-		"build": "vue-cli-service build --dest dist --target lib --name vue-roller --mode production ./src/index.ts",
-		"gitpage": "vue-cli-service build --dest docs --mode gitpage",
-		"upload": "npm run build && npm publish --access=public",
-		"deploy": "npm run gitpage & npm run upload"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/andy-0414/vue-roller/"
-	},
-	"homepage": "https://andy-0414.github.io/vue-roller/",
-	"bugs": {
-		"url": "https://github.com/Andy-0414/vue-roller/issues",
-		"email": "pjh8667@gmail.com"
-	},
-	"files": [
-		"dist",
-		"src",
-		"*.d.ts"
-	],
-	"dependencies": {
-		"core-js": "^3.6.5",
-		"vue": "^2.6.11",
-		"vue-class-component": "^7.2.3",
-		"vue-property-decorator": "^8.4.2"
-	},
-	"devDependencies": {
-		"@vue/cli-plugin-babel": "^4.4.0",
-		"@vue/cli-plugin-typescript": "^4.4.0",
-		"@vue/cli-service": "^4.4.0",
-		"node-sass": "^7.0.0",
-		"sass-loader": "^8.0.2",
-		"typescript": "~3.9.3",
-		"vue-template-compiler": "^2.6.11",
-		"webpack-env": "^0.8.0"
-	},
-	"browserslist": [
-		"> 1%",
-		"last 2 versions",
-		"not dead"
-	]
+    "name": "vue-roller",
+    "version": "2.0.0-beta.1",
+    "private": false,
+    "license": "MIT",
+    "keywords": [
+        "vue",
+        "roller"
+    ],
+    "author": {
+        "name": "Park JongHoon",
+        "email": "pjh8667@gmail.com",
+        "url": "https://github.com/andy-0414"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/andy-0414/vue-roller/"
+    },
+    "homepage": "https://andy-0414.github.io/vue-roller/",
+    "bugs": {
+        "url": "https://github.com/Andy-0414/vue-roller/issues",
+        "email": "pjh8667@gmail.com"
+    },
+    "files": [
+        "dist"
+    ],
+    "types": "./dist/index.d.ts",
+    "main": "./dist/vue-roller.umd.js",
+    "module": "./dist/vue-roller.es.js",
+    "exports": {
+        ".": {
+            "import": "./dist/vue-roller.es.js",
+            "require": "./dist/vue-roller.umd.js"
+        },
+        "./dist/style.css": "./dist/style.css"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build && vue-tsc --emitDeclarationOnly",
+        "preview": "vite preview",
+        "p": "npm run build && npm publish --access=public"
+    },
+    "dependencies": {
+        "@mdi/js": "^6.7.96",
+        "vue": "^3.2.25"
+    },
+    "devDependencies": {
+        "@types/node": "^18.0.0",
+        "@vitejs/plugin-vue": "^2.3.3",
+        "sass": "^1.52.1",
+        "typescript": "^4.5.4",
+        "vite": "^2.9.9",
+        "vue-tsc": "^0.34.7"
+    }
 }

@@ -1,13 +1,16 @@
-import Roller from "./components/Roller.vue";
+import { App, Plugin } from "vue";
+import Roller from "./components/Roller/Roller.vue";
+import RollerItem from "./components/Roller/RollerItem.vue";
 
-// 설치
-const install = (Vue: any) => {
-	Vue.component(Roller.name, Roller);
+export const install: Plugin = (Vue: App): void => {
+    Vue.component(Roller.name, Roller);
+    Vue.component(RollerItem.name, RollerItem);
 };
 
-// 브라우저 자동설치
-if (typeof window !== "undefined" && window.Vue) {
-	install(window.Vue);
+type VueWindow = (Window & typeof globalThis) & { Vue: App };
+if (typeof window !== "undefined" && (window as VueWindow).Vue) {
+    install((window as VueWindow).Vue);
 }
 
-export default Roller;
+export { default as Roller } from "./components/Roller/Roller.vue";
+export { default as RollerItem } from "./components/Roller/RollerItem.vue";

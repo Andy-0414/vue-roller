@@ -1,217 +1,165 @@
-<template>
-	<div class="app">
-		<header class="app__title">
-			<h1>
-				<Roller text="vue-roller" :charList="stringCharList" :transition="2" :isStatic="true" class="roller"></Roller>
-			</h1>
-			<div class="app__title__action">
-				<a href="https://github.com/Andy-0414/vue-roller">
-					<img src="@/assets/GitHub-Mark-Light-120px-plus.png" />
-				</a>
-			</div>
-		</header>
-		<section class="app__content">
-			<h2>Example</h2>
-			<Roller :text="text" :isNumberFormat="isNumberFormat" :transition="transition" :charList="getCharList" :wordWrap="Number(wordWrap)" defaultChar="0" class="roller"></Roller>
-			<input type="text" v-model="text" />
-			<label>
-				isNumberFormat:
-				<input type="checkbox" v-model="isNumberFormat" />
-			</label>
-			<label>
-				transition:
-				<input type="range" v-model="transition" min="0.1" max="2" step="0.1" />
-				({{ transition }})
-			</label>
-			<label>
-				wordWrap:
-				<input type="range" v-model="wordWrap" min="0" max="20" step="1" />
-				({{ wordWrap }})
-			</label>
-			<label>
-				charList:
-				<span class="charlist">{{ getCharList }}</span>
-				<button @click="changeCharListMode">Toggle CharList</button>
-			</label>
-		</section>
-		<footer class="app__footer">MIT Licensed, Copyright © 2020 github.com/andy-0414</footer>
-	</div>
-</template>
+<script setup lang="ts">
+import { ref, watch } from "vue";
+import Roller from "./components/Roller/Roller.vue";
 
-<script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import Roller from "./components/Roller.vue";
+const example1 = ref(2048);
+const isFocusExample1 = ref(false);
+watch(example1, () => {
+    if (!example1.value) example1.value = 0;
+    if (example1.value >= 999999999999) example1.value = 999999999999;
+});
 
-@Component({
-	components: { Roller },
-})
-export default class App extends Vue {
-	text: string = "1234";
-	isNumberFormat: boolean = false;
-	transition: number = 0.5;
-	wordWrap: number = 0;
-	readonly numberCharList: string[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-	readonly stringCharList: string[] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-	charListMode: string = "number";
-	changeCharListMode(): void {
-		if (this.charListMode == "number") this.charListMode = "string";
-		else this.charListMode = "number";
-	}
+const example2 = ref("Hello");
+const isFocusExample2 = ref(false);
+watch(example2, () => {
+    example2.value = example2.value.replace(/\s/gi, "-");
+    example2.value = example2.value.replace(/[^a-z^A-Z|-]*$/, "");
+    if (!example2.value) example2.value = "";
+});
 
-	get getCharList(): string[] {
-		return this.charListMode == "number" ? this.numberCharList : this.stringCharList;
-	}
+const example3 = ref("LONG");
+const isFocusExample3 = ref(false);
+watch(example3, () => {
+    example3.value = example3.value.replace(/\s/gi, "-");
+    example3.value = example3.value.replace(/[^a-z^A-Z|-]*$/, "").toUpperCase();
+    if (!example3.value) example3.value = "";
+});
+
+const example4 = ref("🐭🐰🐻");
+const charSetExample4 = ref(["🐶", "🐭", "🐹", "🐰", "🐻", "🐱", "🧸", "🐼"]);
+function reloadValueExample4() {
+    example4.value =
+        charSetExample4.value[Math.floor(charSetExample4.value.length * Math.random())] +
+        charSetExample4.value[Math.floor(charSetExample4.value.length * Math.random())] +
+        charSetExample4.value[Math.floor(charSetExample4.value.length * Math.random())];
 }
 </script>
 
+<template>
+    <div id="app">
+        <h1 class="app__onboarding">
+            <Roller char-set="alphabet" value="VUE-ROLLER" mode="short" :duration="2000"></Roller>
+        </h1>
+
+        <section class="app__example">
+            <h2 class="app__example__title">Number Example</h2>
+            <div class="app__example__wrapper">
+                <label class="app__example__wrapper__roller" :class="{ 'app__example__wrapper__roller--active': isFocusExample1 }">
+                    <Roller :value="example1.toLocaleString('ko')" char-set="number" mode="short" :duration="1000"></Roller>
+                    <input v-model="example1" placeholder="Number" type="number" @blur="isFocusExample1 = false" @focus="isFocusExample1 = true" />
+                </label>
+            </div>
+        </section>
+        <section class="app__example">
+            <h2 class="app__example__title">Alphabet Example</h2>
+            <div class="app__example__wrapper">
+                <label class="app__example__wrapper__roller" :class="{ 'app__example__wrapper__roller--active': isFocusExample2 }">
+                    <Roller :value="example2" char-set="alphabet" mode="short" :duration="1000"></Roller>
+                    <input v-model="example2" placeholder="Alphabet" @blur="isFocusExample2 = false" @focus="isFocusExample2 = true" />
+                </label>
+            </div>
+        </section>
+        <section class="app__example">
+            <h2 class="app__example__title">Long Mode Example</h2>
+            <div class="app__example__wrapper">
+                <label class="app__example__wrapper__roller" :class="{ 'app__example__wrapper__roller--active': isFocusExample3 }">
+                    <Roller :value="example3" char-set="alphabet" mode="long" :duration="1000"></Roller>
+                    <input v-model="example3" placeholder="Alphabet" @blur="isFocusExample3 = false" @focus="isFocusExample3 = true" />
+                </label>
+            </div>
+        </section>
+
+        <section class="app__example">
+            <h2 class="app__example__title">Custom Char Set Example</h2>
+            <div class="app__example__wrapper">
+                <label class="app__example__wrapper__roller" @click="reloadValueExample4" style="cursor: pointer">
+                    <Roller :value="example4" :char-set="charSetExample4" mode="long" :duration="1000" @animation-end="reloadValueExample4"></Roller>
+                </label>
+            </div>
+        </section>
+
+        <footer class="app__footer">MIT Licensed, Copyright © 2020 github.com/andy-0414</footer>
+    </div>
+</template>
+
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap");
-* {
-	margin: 0;
-	padding: 0;
-
-	box-sizing: border-box;
-	font-family: "Open Sans", sans-serif;
+body {
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
 }
-input[type="range"] {
-	background-color: #354952;
-	border-radius: 100px;
-	outline: none;
-	-webkit-appearance: none;
-	font-size: 1em;
-	overflow: hidden;
-	&::-webkit-slider-thumb {
-		width: 10px;
-		height: 10px;
-		-webkit-appearance: none;
-		background: #42b883;
-		box-shadow: -100vw 0 0 100vw #42b883;
-		border: 0.1px solid #42b883;
-	}
-}
-input[type="text"] {
-	border: none;
-	outline: none;
+#app {
+    .app__onboarding {
+        width: 100%;
+        height: 100vh;
 
-	border-bottom: 1px solid #354952;
-	font-size: 1em;
+        margin: 0;
+        padding: 0;
 
-	margin: 30px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-	&:hover,
-	&:focus {
-		border-bottom: 1px solid #42b883;
-	}
-}
+        background-color: #354952;
+        color: white;
 
-button {
-	cursor: pointer;
-	outline: none;
-	border: none;
-	background-color: #42b883;
-	color: white;
-	font-size: 0.8em;
-	padding: 5px;
-	border-radius: 5px;
+        font-size: 8em;
+    }
+    .app__example {
+        width: 100%;
+        max-width: 720px;
 
-	transition: 0.2s;
+        padding: 40px;
+        margin: 0 auto;
 
-	&:hover {
-		filter: brightness(1.1);
-	}
-	&:active {
-		background-color: #354952;
-	}
-}
-.app {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	.app__title {
-		position: relative;
+        .app__example__title {
+            color: #42b883;
+            font-size: 4em;
+            text-align: center;
+        }
+        .app__example__wrapper {
+            display: flex;
 
-		width: 100%;
-		height: 100vh;
+            width: 100%;
 
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
+            .app__example__wrapper__roller {
+                cursor: text;
 
-		font-size: 5em;
+                flex: 1;
 
-		background-color: #354952;
-		color: white;
+                display: flex;
+                justify-content: center;
 
-		.roller * {
-			font-family: "Major Mono Display", monospace;
-		}
-		.app__title__action {
-			position: absolute;
-			bottom: 2vh;
-			left: 0;
+                font-size: 3em;
 
-			width: 100%;
-			text-align: center;
+                padding: 10px 0;
+                border-bottom: 3px solid rgba(0, 0, 0, 0);
 
-			img {
-				height: 6vh;
-			}
-		}
-	}
-	.app__content {
-		margin-top: 100px;
-		margin-bottom: 100px;
-		width: 80%;
-		height: 100vh;
+                input {
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    opacity: 0;
+                }
+            }
+            .app__example__wrapper__roller:hover {
+                opacity: 0.8;
+            }
+            .app__example__wrapper__roller--active {
+                border-bottom: 3px solid #42b883;
+                padding: 10px 0;
+            }
+            .app__example__wrapper__try {
+            }
+        }
+    }
+    .app__footer {
+        margin-top: 100px;
 
-		font-size: 2em;
+        padding: 20px;
 
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-
-		.roller {
-			width: 300px !important;
-			height: 300px !important;
-		}
-		.roller * {
-			font-family: "Major Mono Display", monospace;
-		}
-
-		h2 {
-			font-size: 2em;
-			color: #42b883;
-			margin-bottom: 20px;
-		}
-		label {
-			margin-top: 20px;
-
-			.charlist {
-				font-size: 0.5em;
-			}
-		}
-	}
-	.app__footer {
-		background-color: #354952;
-		color: white;
-		width: 100%;
-		padding: 20px;
-	}
-}
-
-@media all and (max-aspect-ratio: 3/4) {
-	.app {
-		.app__title {
-			font-size: 3em;
-		}
-	}
-}
-@media all and (max-aspect-ratio: 1/2) {
-	.app {
-		.app__title {
-			font-size: 2em;
-		}
-	}
+        background-color: #354952;
+        color: white;
+    }
 }
 </style>
