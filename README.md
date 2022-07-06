@@ -9,8 +9,8 @@ Fluid and smooth rolling animation for Vue.js
 
 # Demo
 
-![Animated Demo](https://github.com/andy-0414/vue-roller/blob/master/img/example1.webp?raw=true)
-![Animated Demo](https://github.com/andy-0414/vue-roller/blob/master/img/example2.webp?raw=true)
+![Animated Demo](https://github.com/andy-0414/vue-roller/blob/master/img/example1.gif?raw=true)
+![Animated Demo](https://github.com/andy-0414/vue-roller/blob/master/img/example2.gif?raw=true)
 
 Try out [here](http://andy-0414.github.io/vue-roller) with your own text!
 
