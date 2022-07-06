@@ -1,26 +1,28 @@
 <script setup lang="ts">
 import { toRefs, ref, Ref, computed } from "vue";
-import useAnimationManager from "../../composables/useAnimationManager";
+import useAnimationManager from "../../composables//animation/useAnimationManager";
 import useMeasureText from "../../composables/useMeasureText";
 import useSelectElement from "../../composables/useSelectElement";
 import { RollerCharSet, RollerItemCharSet, RollerItemMode } from "./";
 
 export interface Props {
     char?: string;
+    defaultChar?: string;
     duration?: number;
     charSet?: string[];
     mode?: RollerItemMode | string;
 }
 const props = withDefaults(defineProps<Props>(), {
     char: "",
+    defaultChar: "",
     charSet: () => RollerCharSet[RollerItemCharSet.NUMBER],
     duration: 500,
     mode: RollerItemMode.SHORT,
 });
 
-const { char, charSet, duration } = toRefs(props);
+const { char, defaultChar, charSet, duration } = toRefs(props);
 
-const { isReady, isEnd, targetIdx, prevTargetIdx } = useAnimationManager(char, charSet, duration);
+const { isReady, isEnd, targetIdx, prevTargetIdx } = useAnimationManager(char, defaultChar, charSet, duration);
 
 const itemElements: Ref<HTMLDivElement[]> = ref([]);
 const { itemElement } = useSelectElement(itemElements, targetIdx);
@@ -60,14 +62,14 @@ const shortCharSet = computed(() => {
 </script>
 
 <template>
-    <div class="roller-item" :style="{ width: `${width}px`, transition: `${duration}ms` }">
+    <div class="roller-item" :style="{ width: `${width}px` }">
         <div class="roller-item__wrapper" :class="{ 'roller-item__wrapper--short': mode == RollerItemMode.SHORT }" v-if="isEnd">
             <div class="roller-item__wrapper__list">
                 <div class="roller-item__wrapper__list__item" :class="{ 'roller-item__wrapper__list__item--target': item == char }" v-for="item of shortCharSet" ref="itemElements">{{ item }}</div>
             </div>
         </div>
         <div class="roller-item__wrapper" :class="{ 'roller-item__wrapper--short': mode == RollerItemMode.SHORT }" v-else>
-            <div class="roller-item__wrapper__list" :style="{ top, transition: `${duration}ms` }">
+            <div class="roller-item__wrapper__list" :style="{ top, transition: `top ${duration}ms` }">
                 <div class="roller-item__wrapper__list__item" :class="{ 'roller-item__wrapper__list__item--target': item == char }" v-for="item of charSet" ref="itemElements">{{ item }}</div>
             </div>
         </div>
@@ -79,6 +81,8 @@ const shortCharSet = computed(() => {
     position: relative;
 
     height: 1em;
+
+    transition: width 500ms;
 
     .roller-item__wrapper {
         position: relative;

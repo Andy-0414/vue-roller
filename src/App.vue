@@ -73,7 +73,7 @@ function reloadValueExample4() {
             <h2 class="app__example__title">Custom Char Set Example</h2>
             <div class="app__example__wrapper">
                 <label class="app__example__wrapper__roller" @click="reloadValueExample4" style="cursor: pointer">
-                    <Roller :value="example4" :char-set="charSetExample4" mode="long" :duration="1000"></Roller>
+                    <Roller :value="example4" :char-set="charSetExample4" mode="long" :duration="1000" @animation-end="reloadValueExample4"></Roller>
                 </label>
             </div>
         </section>
