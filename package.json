@@ -1,7 +1,7 @@
 {
     "name": "vue-roller",
     "description": "Fluid and smooth rolling animation for Vue.js",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "private": false,
     "license": "MIT",
     "keywords": [
@@ -42,7 +42,6 @@
         "p": "npm run build && npm publish --access=public"
     },
     "dependencies": {
-        "@mdi/js": "^6.7.96",
         "vue": "^3.2.25"
     },
     "devDependencies": {

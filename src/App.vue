@@ -89,6 +89,7 @@ body {
     overflow-y: scroll;
 }
 #app {
+    overflow-x: hidden;
     .app__onboarding {
         width: 100%;
         height: 100vh;
