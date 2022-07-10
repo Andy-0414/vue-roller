@@ -125,6 +125,8 @@ const shortCharSet = computed(() => {
                 width: fit-content;
                 height: 1em;
 
+                line-height: 1;
+
                 box-sizing: border-box;
 
                 user-select: none;
