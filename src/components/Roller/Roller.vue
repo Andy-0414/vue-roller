@@ -48,6 +48,7 @@ const computedCharSet = computed(() => {
 <style lang="scss" scoped>
 .roller {
     display: flex;
+    flex-wrap: wrap;
 }
 .roller-list-enter-active,
 .roller-list-leave-active {
