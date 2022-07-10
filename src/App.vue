@@ -113,6 +113,7 @@ body {
         padding: 40px;
         margin: 0 auto;
 
+        box-sizing: border-box;
         .app__example__title {
             color: #42b883;
             font-size: 4em;
@@ -161,6 +162,20 @@ body {
 
         background-color: #354952;
         color: white;
+        word-break: keep-all;
+    }
+}
+@media (max-width: 720px) {
+    #app {
+        .app__onboarding {
+            font-size: 4em;
+        }
+        .app__example {
+            padding: 20px;
+            .app__example__title {
+                font-size: 2em;
+            }
+        }
     }
 }
 </style>
