@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { toRefs, ref, Ref, computed } from "vue";
+import { computed, ref, Ref, toRefs } from "vue";
 import useAnimationManager from "../../composables//animation/useAnimationManager";
 import useMeasureText from "../../composables/useMeasureText";
 import useSelectElement from "../../composables/useSelectElement";
@@ -33,13 +33,12 @@ const { width } = useMeasureText(itemElement);
  */
 const top = computed(() => {
     if (!isReady.value) {
-        if (prevTargetIdx.value != -1) return `${25 - prevTargetIdx.value * 50}%`;
-        return "100%";
+        if (prevTargetIdx.value !== -1) return `-${(prevTargetIdx.value / charSet.value.length) * 100}%`;
+        return "0%";
     }
-    if (targetIdx.value == -1) return "25%";
-    return `${25 - targetIdx.value * 50}%`;
+    if (targetIdx.value === -1) return `-${(1 / charSet.value.length) * 100}%`;
+    return `-${(targetIdx.value / charSet.value.length) * 100}%`;
 });
-
 /**
  * @description Array of characters to be displayed after animation ends
  */
@@ -69,7 +68,7 @@ const shortCharSet = computed(() => {
             </div>
         </div>
         <div class="roller-item__wrapper" :class="{ 'roller-item__wrapper--short': mode == RollerItemMode.SHORT }" v-else>
-            <div class="roller-item__wrapper__list" :style="{ top, transition: `top ${duration}ms` }">
+            <div class="roller-item__wrapper__list" :style="{ top: '25%', transform: `translateY(${top})`, transition: `transform ${duration}ms` }">
                 <div class="roller-item__wrapper__list__item" :class="{ 'roller-item__wrapper__list__item--target': item == char }" v-for="item of charSet" ref="itemElements">{{ item }}</div>
             </div>
         </div>
@@ -103,8 +102,8 @@ const shortCharSet = computed(() => {
         box-sizing: border-box;
 
         &.roller-item__wrapper--short {
-            mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 70%, rgba(255, 255, 255, 0) 80%);
-            -webkit-mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 70%, rgba(255, 255, 255, 0) 80%);
+            mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 22%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 70%, rgba(255, 255, 255, 0) 78%);
+            -webkit-mask-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 22%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 70%, rgba(255, 255, 255, 0) 78%);
         }
         .roller-item__wrapper__list {
             position: absolute;
